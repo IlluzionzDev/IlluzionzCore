@@ -1,5 +1,7 @@
 package com.illuzionzstudios.core;
 
+import com.illuzionzstudios.core.plugin.IlluzionzPlugin;
+
 import java.util.logging.Logger;
 
 /**
@@ -10,6 +12,6 @@ public class IlluzionzCore {
     /**
      * Logger
      */
-    public static final Logger LOGGER = Logger.getLogger("Illuzionz Studios");
+    public static final Logger LOGGER = Logger.getLogger(IlluzionzPlugin.getInstance().getDescription().getName());
 
 }
