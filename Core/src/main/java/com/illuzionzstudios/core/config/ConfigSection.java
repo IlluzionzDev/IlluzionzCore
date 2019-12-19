@@ -1,6 +1,7 @@
 package com.illuzionzstudios.core.config;
 
 import com.illuzionzstudios.core.compatibility.CompatibleMaterial;
+import com.illuzionzstudios.core.compatibility.CompatibleSound;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.bukkit.configuration.Configuration;

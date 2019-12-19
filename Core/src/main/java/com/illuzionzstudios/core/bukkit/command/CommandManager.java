@@ -11,10 +11,14 @@ import com.illuzionzstudios.core.bukkit.controller.BukkitController;
 import com.illuzionzstudios.core.plugin.IlluzionzPlugin;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.SimplePluginManager;
 
 import java.lang.reflect.Field;
@@ -120,5 +124,50 @@ public class CommandManager implements BukkitController, Listener {
         } else if (command instanceof GlobalCommand) {
             gCommands.add((GlobalCommand) command);
         }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPreCommand(PlayerCommandPreprocessEvent event) {
+        Player player = event.getPlayer();
+
+        if (player == null) {
+            event.getPlayer().sendMessage(ChatColor.DARK_RED + "You can't use commands right now!");
+            event.setCancelled(true);
+            return;
+        }
+
+        String attempted = event.getMessage().split(" ")[0];
+        String soFar = null;
+        if (!canUseCommand(attempted, player)) {
+            event.setCancelled(true);
+
+            if (attempted.length() <= 1) {
+                player.sendMessage(ChatColor.DARK_RED + "Invalid command... Type /help for a list of commands");
+                return;
+            }
+
+            for (String s : allowed) {
+                int score = getSimilarityScore(attempted, s);
+                if (!attempted.isEmpty() && score <= 3 && attempted.toCharArray()[1] == s.toCharArray()[0]) {
+                    player.sendMessage(ChatColor.DARK_RED + "Did you mean " + ChatColor.RED + "/" + s + "? " + ChatColor.DARK_RED + "If not, type /help to see the commands!");
+                    return;
+                }
+            }
+            player.sendMessage(ChatColor.DARK_RED + "Invalid command... Type /help for a list of commands");
+        }
+    }
+
+    private boolean canUseCommand(String msg, Player player) {
+        if (player.isOp()) {
+            return true;
+        }
+
+        for (String s : allowed) {
+            if (msg.equalsIgnoreCase("/" + s)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

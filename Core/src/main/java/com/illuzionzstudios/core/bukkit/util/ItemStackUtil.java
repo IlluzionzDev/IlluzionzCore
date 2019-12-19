@@ -107,42 +107,4 @@ public class ItemStackUtil {
     public static boolean isArmor(ItemStack i) {
         return StringUtil.contains(i.getType().name(), "HELMET") || StringUtil.contains(i.getType().name(), "CHESTPLATE") || StringUtil.contains(i.getType().name(), "LEGGINGS") || StringUtil.contains(i.getType().name(), "BOOTS");
     }
-
-    /**
-     * Construct a progress bar based on exp stats
-     *
-     * @param current Current amount of exp
-     * @param max The max amount of exp you can get
-     * @param totalBars The total amount of bars to use
-     * @param symbol The symbol to use for the bar
-     * @param completedColor The colour of a completed bar
-     * @param notCompletedColor The colour of a blank bar
-     * @return The progress bar as a String
-     */
-    public static String getProgressBar(int current, int max, int totalBars, String symbol, ChatColor completedColor, ChatColor notCompletedColor, boolean bold){
-
-        float percent = (float) current / max;
-
-        int progressBars = (int) (totalBars * percent);
-
-        int leftOver = (totalBars - progressBars);
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(completedColor.toString());
-        if (bold)
-            sb.append(ChatColor.BOLD.toString());
-        for (int i = 0; i < progressBars; i++) {
-            sb.append(symbol);
-        }
-        sb.append(notCompletedColor.toString());
-        if (bold)
-            sb.append(ChatColor.BOLD.toString());
-        for (int i = 0; i < leftOver; i++) {
-            sb.append(symbol);
-        }
-
-        if (bold && !(leftOver <= 0))
-        return sb.toString().substring(0, totalBars + 8); // Only have the right amount of bars, so it doesn't overfill
-        return sb.toString().substring(0, totalBars + 4); // Accounting for colour characters
-    }
 }

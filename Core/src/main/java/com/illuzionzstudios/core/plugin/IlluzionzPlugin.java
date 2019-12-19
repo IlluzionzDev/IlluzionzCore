@@ -28,6 +28,8 @@ public abstract class IlluzionzPlugin extends JavaPlugin {
     protected ConsoleCommandSender console = Bukkit.getConsoleSender();
     private boolean emergencyStop = false;
 
+    public static final boolean DEBUG = true;
+
     @Override
     public final void onLoad() {
         try {
@@ -74,6 +76,7 @@ public abstract class IlluzionzPlugin extends JavaPlugin {
             emergencyStop();
             console.sendMessage(ChatColor.RED + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             console.sendMessage(" ");
+            if (DEBUG) t.printStackTrace();
             return;
         }
 

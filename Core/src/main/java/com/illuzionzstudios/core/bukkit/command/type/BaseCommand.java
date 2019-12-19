@@ -1,7 +1,9 @@
 package com.illuzionzstudios.core.bukkit.command.type;
 
+import com.illuzionzstudios.core.bukkit.permission.IPermission;
 import com.illuzionzstudios.core.locale.Locale;
 import com.illuzionzstudios.core.locale.player.Message;
+import com.illuzionzstudios.core.plugin.IlluzionzPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -23,7 +25,7 @@ public abstract class BaseCommand extends Command {
     /**
      * Required/Minimum permission to use command
      */
-    protected String requiredPermission;
+    protected IPermission requiredPermission;
 
     /**
      * Only set for console command
@@ -73,9 +75,11 @@ public abstract class BaseCommand extends Command {
         if (this instanceof PlayerCommand) {
             this.player = (Player) commandSender;
 
-            if (!player.hasPermission(requiredPermission) && !commandSender.isOp()) {
-                new Message("&cNot enough permissions").sendMessage(commandSender);
-                return true;
+            if (requiredPermission != null) {
+                if (!player.hasPermission(requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
+                    IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
+                    return true;
+                }
             }
 
             ((PlayerCommand) this).onCommand(s, args);
@@ -83,12 +87,13 @@ public abstract class BaseCommand extends Command {
             this.commandSender = commandSender;
 
             if (commandSender instanceof Player && !commandSender.isOp()) {
-                if (!player.hasPermission(requiredPermission) && !commandSender.isOp()) {
-                    new Message("&cNot enough permissions").sendMessage(commandSender);
-                    return true;
+                if (requiredPermission != null) {
+                    if (!commandSender.hasPermission(requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
+                        IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
+                        return true;
+                    }
                 }
             }
-
 
             ((GlobalCommand) this).onCommand(s, args);
         }
@@ -108,6 +113,23 @@ public abstract class BaseCommand extends Command {
      */
     public boolean sub(String subName) {
         return argAsString(0).equalsIgnoreCase(subName);
+    }
+
+    /**
+     * Execute code if sub is called
+     *
+     * @param subName  Name of subcommand
+     * @param permission Permission for the sub
+     * @param function Function as lambda to execute
+     */
+    public void sub(String subName, IPermission permission, SubAction function) {
+        if (sub(subName)) {
+            if (!player.hasPermission(permission.getPermissionNode()) && !commandSender.isOp()) {
+                IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
+                return;
+            }
+            function.execute(player);
+        }
     }
 
     /**
