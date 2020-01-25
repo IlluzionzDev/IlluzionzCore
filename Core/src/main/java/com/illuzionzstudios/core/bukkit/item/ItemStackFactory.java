@@ -160,7 +160,7 @@ public class ItemStackFactory {
         meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
-        meta.spigot().setUnbreakable(unbreakable);
+        meta.setUnbreakable(unbreakable);
         meta.setUnbreakable(true);
         item.setItemMeta(meta);
         return this;
