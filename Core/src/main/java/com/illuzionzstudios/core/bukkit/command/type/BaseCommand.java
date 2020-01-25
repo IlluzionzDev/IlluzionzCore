@@ -15,6 +15,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Copyright © 2020 Property of Illuzionz Studios, LLC
+ * All rights reserved. No part of this publication may be reproduced, distributed, or
+ * transmitted in any form or by any means, including photocopying, recording, or other
+ * electronic or mechanical methods, without the prior written permission of the publisher,
+ * except in the case of brief quotations embodied in critical reviews and certain other
+ * noncommercial uses permitted by copyright law. Any licensing of this software overrides
+ * this statement.
+ */
+
 public abstract class BaseCommand extends Command {
 
     /**
@@ -36,6 +46,7 @@ public abstract class BaseCommand extends Command {
      */
     protected int minArgs;
     protected String notEnoughArgsMsg = "&cNot enough arguments";
+
     /**
      * Arguments for the command
      */
@@ -118,9 +129,9 @@ public abstract class BaseCommand extends Command {
     /**
      * Execute code if sub is called
      *
-     * @param subName  Name of subcommand
+     * @param subName    Name of subcommand
      * @param permission Permission for the sub
-     * @param function Function as lambda to execute
+     * @param function   Function as lambda to execute
      */
     public void sub(String subName, IPermission permission, SubAction function) {
         if (sub(subName)) {

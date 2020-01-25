@@ -7,15 +7,15 @@ import org.bukkit.entity.Player;
 
 /**
  * Sounds that are compatible with server versions 1.7+ <br>
- * TODO: This needs work. 
+ * TODO: This needs work.
  * Finished 1.8, finished 1.9 blocks, resume with 1.9 entities<br>
  * Between 1.8 and 1.9, all sounds were renamed, and between 1.12 and 1.13, some
  * sounds were renamed. New sounds have been added by different versions, as
  * well. The intent of this class is to provide either the correct sound or a
  * near equivalent for the current server.
  *
- * @since 2019-08-25
  * @author jascotty2
+ * @since 2019-08-25
  */
 public enum CompatibleSound {
 
@@ -230,7 +230,7 @@ public enum CompatibleSound {
     BLOCK_WET_GRASS_HIT,
     BLOCK_WET_GRASS_PLACE,
     BLOCK_WET_GRASS_STEP,
-    BLOCK_WOODEN_BUTTON_CLICK_OFF(ServerVersion.V1_13, v(ServerVersion.V1_9, "BLOCK_WOOD_BUTTON_CLICK_ON"),  v("WOOD_CLICK")),
+    BLOCK_WOODEN_BUTTON_CLICK_OFF(ServerVersion.V1_13, v(ServerVersion.V1_9, "BLOCK_WOOD_BUTTON_CLICK_ON"), v("WOOD_CLICK")),
     BLOCK_WOODEN_BUTTON_CLICK_ON(ServerVersion.V1_13, v(ServerVersion.V1_9, "BLOCK_WOOD_BUTTON_CLICK_ON"), v("WOOD_CLICK")),
     BLOCK_WOODEN_DOOR_CLOSE("DOOR_CLOSE"),
     BLOCK_WOODEN_DOOR_OPEN("DOOR_OPEN"),
@@ -842,9 +842,9 @@ public enum CompatibleSound {
     WEATHER_RAIN("AMBIENCE_RAIN"),
     WEATHER_RAIN_ABOVE;
 
+    protected static final boolean DEBUG = false;
     protected /*final*/ Sound sound;
     protected /*final*/ boolean compatibilityMode;
-    protected static final boolean DEBUG = false;
 
     private CompatibleSound() {
         // This could get risky, since we haven't finished this
@@ -856,7 +856,7 @@ public enum CompatibleSound {
                 break;
             }
         }
-        if(DEBUG && find == null) {
+        if (DEBUG && find == null) {
             System.out.println("Sound for " + name() + " Not found!");
         }
         sound = find;
@@ -932,6 +932,22 @@ public enum CompatibleSound {
         }
     }
 
+    private static Version v(String sound) {
+        return new Version(ServerVersion.UNKNOWN, sound, false);
+    }
+
+    private static Version v(ServerVersion version, String sound) {
+        return new Version(version, sound, false);
+    }
+
+    private static Version v(ServerVersion version, String sound, boolean compatibility) {
+        return new Version(version, sound, compatibility);
+    }
+
+    private static Version v(String sound, boolean compatibility) {
+        return new Version(ServerVersion.UNKNOWN, sound, compatibility);
+    }
+
     /**
      * Get a Bukkit API sound that matches this sound
      *
@@ -955,7 +971,7 @@ public enum CompatibleSound {
      *
      * @param sendTo player to send the sound to
      * @param volume the volume of the sound
-     * @param pitch the pitch of the sound
+     * @param pitch  the pitch of the sound
      */
     public void play(Player sendTo, float volume, float pitch) {
         sendTo.playSound(sendTo.getLocation(), getSound(), volume, pitch);
@@ -964,10 +980,10 @@ public enum CompatibleSound {
     /**
      * Send a sound to a specific player
      *
-     * @param sendTo player to send the sound to
+     * @param sendTo   player to send the sound to
      * @param location where the sound should come from
-     * @param volume the volume of the sound
-     * @param pitch the pitch of the sound
+     * @param volume   the volume of the sound
+     * @param pitch    the pitch of the sound
      */
     public void play(Player sendTo, Location location, float volume, float pitch) {
         sendTo.playSound(sendTo.getLocation(), getSound(), volume, pitch);
@@ -976,10 +992,10 @@ public enum CompatibleSound {
     /**
      * Play a sound in a world
      *
-     * @param sendTo world to send the sound to
+     * @param sendTo   world to send the sound to
      * @param location where the sound should come from
-     * @param volume the volume of the sound
-     * @param pitch the pitch of the sound
+     * @param volume   the volume of the sound
+     * @param pitch    the pitch of the sound
      */
     public void play(World sendTo, Location location, float volume, float pitch) {
         sendTo.playSound(location, getSound(), volume, pitch);
@@ -1003,22 +1019,6 @@ public enum CompatibleSound {
      */
     public boolean usesCompatibility() {
         return !compatibilityMode;
-    }
-
-    private static Version v(String sound) {
-        return new Version(ServerVersion.UNKNOWN, sound, false);
-    }
-
-    private static Version v(ServerVersion version, String sound) {
-        return new Version(version, sound, false);
-    }
-
-    private static Version v(ServerVersion version, String sound, boolean compatibility) {
-        return new Version(version, sound, compatibility);
-    }
-
-    private static Version v(String sound, boolean compatibility) {
-        return new Version(ServerVersion.UNKNOWN, sound, compatibility);
     }
 
     private static class Version {

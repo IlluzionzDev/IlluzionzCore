@@ -12,144 +12,6 @@ import java.util.stream.Stream;
 
 public class CompatibleParticleHandler {
 
-    public static enum ParticleType {
-        /* 1.15 */
-        DRIPPING_HONEY,
-        FALLING_HONEY,
-        FALLING_NECTAR,
-        LANDING_HONEY,
-
-        EXPLOSION_NORMAL(),
-        EXPLOSION_LARGE,
-        EXPLOSION_HUGE,
-        FIREWORKS_SPARK,
-        WATER_BUBBLE,
-        WATER_SPLASH,
-        WATER_WAKE,
-        SUSPENDED,
-        SUSPENDED_DEPTH,
-        CRIT,
-        CRIT_MAGIC,
-        SMOKE_NORMAL,
-        SMOKE_LARGE,
-        SPELL,
-        SPELL_INSTANT,
-        SPELL_MOB,
-        SPELL_MOB_AMBIENT,
-        SPELL_WITCH,
-        DRIP_WATER,
-        DRIP_LAVA,
-        VILLAGER_ANGRY,
-        VILLAGER_HAPPY,
-        TOWN_AURA,
-        NOTE,
-        PORTAL,
-        ENCHANTMENT_TABLE,
-        FLAME,
-        LAVA,
-        CLOUD,
-        REDSTONE(), //DustOptions
-        SNOWBALL,
-        SNOW_SHOVEL,
-        SLIME,
-        HEART,
-        BARRIER,
-        ITEM_CRACK(), // ItemStack
-        BLOCK_CRACK(), // BlockData
-        BLOCK_DUST(), // BlockData
-        WATER_DROP,
-        // 1.8-1.12 included ITEM_TAKE
-        MOB_APPEARANCE,
-        /// End 1.8 particles ///
-        DRAGON_BREATH(ServerVersion.V1_9, "SPELL_MOB_AMBIENT"),
-        END_ROD(ServerVersion.V1_9, "ENCHANTMENT_TABLE"),
-        DAMAGE_INDICATOR(ServerVersion.V1_9, "VILLAGER_ANGRY"),
-        SWEEP_ATTACK(ServerVersion.V1_9, "CRIT"),
-        /// End 1.9 particles ///
-        FALLING_DUST(ServerVersion.V1_10, "BLOCK_DUST"), // BlockData
-        /// End 1.10 ///
-        TOTEM(ServerVersion.V1_11, "VILLAGER_HAPPY"),
-        SPIT(ServerVersion.V1_11, "REDSTONE"),
-        /// End 1.11-1.12 ///
-        SQUID_INK(ServerVersion.V1_13, "CRIT"),
-        BUBBLE_POP(ServerVersion.V1_13, "CRIT"),
-        CURRENT_DOWN(ServerVersion.V1_13, "CRIT"),
-        BUBBLE_COLUMN_UP(ServerVersion.V1_13, "CRIT"),
-        NAUTILUS(ServerVersion.V1_13, "ENCHANTMENT_TABLE"),
-        DOLPHIN(ServerVersion.V1_13, "TOWN_AURA"),
-        /// End 1.13 ///
-        SNEEZE(ServerVersion.V1_14, "REDSTONE"),
-        CAMPFIRE_COSY_SMOKE(ServerVersion.V1_14, "SMOKE_NORMAL"),
-        CAMPFIRE_SIGNAL_SMOKE(ServerVersion.V1_14, "SMOKE_LARGE"),
-        COMPOSTER(ServerVersion.V1_14, "CRIT"),
-        FLASH(ServerVersion.V1_14, "EXPLOSION_NORMAL"), // idk
-        FALLING_LAVA(ServerVersion.V1_14, "DRIP_LAVA"),
-        LANDING_LAVA(ServerVersion.V1_14, "LAVA"),
-        FALLING_WATER(ServerVersion.V1_14, "DRIP_WATER"),
-        /// End 1.14 ///
-        ;
-
-        final boolean compatibilityMode;
-        final LegacyParticleEffects.Type compatibleEffect;
-        final Object particle;
-        final static Map<String, ParticleType> map = new HashMap();
-
-        static {
-            for (ParticleType t : values()) {
-                map.put(t.name(), t);
-            }
-        }
-
-        private ParticleType() {
-            if (ServerVersion.isServerVersionAtOrBelow(ServerVersion.V1_8)) {
-                this.compatibilityMode = true;
-                this.particle = null;
-                this.compatibleEffect = LegacyParticleEffects.Type.valueOf(name());
-            } else {
-                this.compatibleEffect = null;
-                // does this particle exist in our version?
-                Particle check = Stream.of(Particle.values()).filter(p -> p.name().equals(name())).findFirst().orElse(null);
-                if (check != null) {
-                    this.particle = check;
-                    this.compatibilityMode = false;
-                } else {
-                    // this shouldn't happen, really
-                    this.particle = Particle.END_ROD;
-                    this.compatibilityMode = true;
-                }
-            }
-        }
-
-        private ParticleType(ServerVersion minVersion, String compatible) {
-            // Particle class doesn't exist in 1.8
-            if (ServerVersion.isServerVersionAtOrBelow(ServerVersion.V1_8)) {
-                this.compatibilityMode = true;
-                this.compatibleEffect = LegacyParticleEffects.Type.valueOf(compatible);
-                this.particle = null;
-            } else if (ServerVersion.isServerVersionBelow(minVersion)) {
-                this.compatibilityMode = true;
-                this.compatibleEffect = null;
-                this.particle = Particle.valueOf(compatible);
-            } else {
-                this.compatibleEffect = null;
-                // does this particle exist in our version?
-                Particle check = Stream.of(Particle.values()).filter(p -> p.name().equals(name())).findFirst().orElse(null);
-                if (check != null) {
-                    this.particle = check;
-                    this.compatibilityMode = false;
-                } else {
-                    // this shouldn't happen, really
-                    this.particle = Particle.END_ROD;
-                    this.compatibilityMode = true;
-                }
-            }
-        }
-
-        public static ParticleType getParticle(String name) {
-            return map.get(name);
-        }
-    }
-
     public static void spawnParticles(String type, Location location) {
         spawnParticles(type, location, 0);
     }
@@ -271,6 +133,145 @@ public class CompatibleParticleHandler {
         w.playEffect(l, Effect.SMOKE, BlockFace.NORTH_EAST);
         w.playEffect(l, Effect.SMOKE, BlockFace.NORTH);
         w.playEffect(l, Effect.SMOKE, BlockFace.NORTH_WEST);
+    }
+
+    public static enum ParticleType {
+        /* 1.15 */
+        DRIPPING_HONEY,
+        FALLING_HONEY,
+        FALLING_NECTAR,
+        LANDING_HONEY,
+
+        EXPLOSION_NORMAL(),
+        EXPLOSION_LARGE,
+        EXPLOSION_HUGE,
+        FIREWORKS_SPARK,
+        WATER_BUBBLE,
+        WATER_SPLASH,
+        WATER_WAKE,
+        SUSPENDED,
+        SUSPENDED_DEPTH,
+        CRIT,
+        CRIT_MAGIC,
+        SMOKE_NORMAL,
+        SMOKE_LARGE,
+        SPELL,
+        SPELL_INSTANT,
+        SPELL_MOB,
+        SPELL_MOB_AMBIENT,
+        SPELL_WITCH,
+        DRIP_WATER,
+        DRIP_LAVA,
+        VILLAGER_ANGRY,
+        VILLAGER_HAPPY,
+        TOWN_AURA,
+        NOTE,
+        PORTAL,
+        ENCHANTMENT_TABLE,
+        FLAME,
+        LAVA,
+        CLOUD,
+        REDSTONE(), //DustOptions
+        SNOWBALL,
+        SNOW_SHOVEL,
+        SLIME,
+        HEART,
+        BARRIER,
+        ITEM_CRACK(), // ItemStack
+        BLOCK_CRACK(), // BlockData
+        BLOCK_DUST(), // BlockData
+        WATER_DROP,
+        // 1.8-1.12 included ITEM_TAKE
+        MOB_APPEARANCE,
+        /// End 1.8 particles ///
+        DRAGON_BREATH(ServerVersion.V1_9, "SPELL_MOB_AMBIENT"),
+        END_ROD(ServerVersion.V1_9, "ENCHANTMENT_TABLE"),
+        DAMAGE_INDICATOR(ServerVersion.V1_9, "VILLAGER_ANGRY"),
+        SWEEP_ATTACK(ServerVersion.V1_9, "CRIT"),
+        /// End 1.9 particles ///
+        FALLING_DUST(ServerVersion.V1_10, "BLOCK_DUST"), // BlockData
+        /// End 1.10 ///
+        TOTEM(ServerVersion.V1_11, "VILLAGER_HAPPY"),
+        SPIT(ServerVersion.V1_11, "REDSTONE"),
+        /// End 1.11-1.12 ///
+        SQUID_INK(ServerVersion.V1_13, "CRIT"),
+        BUBBLE_POP(ServerVersion.V1_13, "CRIT"),
+        CURRENT_DOWN(ServerVersion.V1_13, "CRIT"),
+        BUBBLE_COLUMN_UP(ServerVersion.V1_13, "CRIT"),
+        NAUTILUS(ServerVersion.V1_13, "ENCHANTMENT_TABLE"),
+        DOLPHIN(ServerVersion.V1_13, "TOWN_AURA"),
+        /// End 1.13 ///
+        SNEEZE(ServerVersion.V1_14, "REDSTONE"),
+        CAMPFIRE_COSY_SMOKE(ServerVersion.V1_14, "SMOKE_NORMAL"),
+        CAMPFIRE_SIGNAL_SMOKE(ServerVersion.V1_14, "SMOKE_LARGE"),
+        COMPOSTER(ServerVersion.V1_14, "CRIT"),
+        FLASH(ServerVersion.V1_14, "EXPLOSION_NORMAL"), // idk
+        FALLING_LAVA(ServerVersion.V1_14, "DRIP_LAVA"),
+        LANDING_LAVA(ServerVersion.V1_14, "LAVA"),
+        FALLING_WATER(ServerVersion.V1_14, "DRIP_WATER"),
+        /// End 1.14 ///
+        ;
+
+        final static Map<String, ParticleType> map = new HashMap();
+
+        static {
+            for (ParticleType t : values()) {
+                map.put(t.name(), t);
+            }
+        }
+
+        final boolean compatibilityMode;
+        final LegacyParticleEffects.Type compatibleEffect;
+        final Object particle;
+
+        private ParticleType() {
+            if (ServerVersion.isServerVersionAtOrBelow(ServerVersion.V1_8)) {
+                this.compatibilityMode = true;
+                this.particle = null;
+                this.compatibleEffect = LegacyParticleEffects.Type.valueOf(name());
+            } else {
+                this.compatibleEffect = null;
+                // does this particle exist in our version?
+                Particle check = Stream.of(Particle.values()).filter(p -> p.name().equals(name())).findFirst().orElse(null);
+                if (check != null) {
+                    this.particle = check;
+                    this.compatibilityMode = false;
+                } else {
+                    // this shouldn't happen, really
+                    this.particle = Particle.END_ROD;
+                    this.compatibilityMode = true;
+                }
+            }
+        }
+
+        private ParticleType(ServerVersion minVersion, String compatible) {
+            // Particle class doesn't exist in 1.8
+            if (ServerVersion.isServerVersionAtOrBelow(ServerVersion.V1_8)) {
+                this.compatibilityMode = true;
+                this.compatibleEffect = LegacyParticleEffects.Type.valueOf(compatible);
+                this.particle = null;
+            } else if (ServerVersion.isServerVersionBelow(minVersion)) {
+                this.compatibilityMode = true;
+                this.compatibleEffect = null;
+                this.particle = Particle.valueOf(compatible);
+            } else {
+                this.compatibleEffect = null;
+                // does this particle exist in our version?
+                Particle check = Stream.of(Particle.values()).filter(p -> p.name().equals(name())).findFirst().orElse(null);
+                if (check != null) {
+                    this.particle = check;
+                    this.compatibilityMode = false;
+                } else {
+                    // this shouldn't happen, really
+                    this.particle = Particle.END_ROD;
+                    this.compatibilityMode = true;
+                }
+            }
+        }
+
+        public static ParticleType getParticle(String name) {
+            return map.get(name);
+        }
     }
 
 }

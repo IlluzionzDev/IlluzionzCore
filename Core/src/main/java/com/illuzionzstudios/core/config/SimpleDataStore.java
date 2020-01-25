@@ -1,11 +1,11 @@
 package com.illuzionzstudios.core.config;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,16 +17,15 @@ import java.util.logging.Level;
  * Used to easily store a set of one data value
  *
  * @param <T> DataObject class that is used to store the data
- * @since 2019-09-06
  * @author jascotty2
+ * @since 2019-09-06
  */
 public class SimpleDataStore<T extends DataStoreObject> {
 
     protected final Plugin plugin;
     protected final String filename, dirName;
-    private final Function<ConfigurationSection, T> getFromSection;
     protected final HashMap<Object, T> data = new HashMap();
-    private File file;
+    private final Function<ConfigurationSection, T> getFromSection;
     private final Object lock = new Object();
     SaveTask saveTask;
     Timer autosaveTimer;
@@ -34,6 +33,7 @@ public class SimpleDataStore<T extends DataStoreObject> {
      * time in seconds to start a save after a change is made
      */
     int autosaveInterval = 60;
+    private File file;
 
     public SimpleDataStore(@NotNull Plugin plugin, @NotNull String filename, @NotNull Function<ConfigurationSection, T> loadFunction) {
         this.plugin = plugin;

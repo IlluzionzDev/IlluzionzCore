@@ -9,8 +9,8 @@ import java.util.Map;
  * Starting in Minecraft 1.13, separate materials for blocks and items were
  * phased out. This provides a translation for those values.
  *
- * @since 2019-09-12
  * @author jascotty2
+ * @since 2019-09-12
  */
 public enum LegacyMaterialBlockType {
 
@@ -19,7 +19,7 @@ public enum LegacyMaterialBlockType {
     BIRCH_DOOR("BIRCH_DOOR", true),
     FURNACE("FURNACE", "BURNING_FURNACE"),
     CAKE("CAKE_BLOCK"),
-	CARROTS("CARROT"), // totally makes sense, lol
+    CARROTS("CARROT"), // totally makes sense, lol
     CAULDRON("CAULDRON_BLOCK"),
     COMPARATOR("REDSTONE_COMPARATOR_OFF", "REDSTONE_COMPARATOR_ON"),
     DARK_OAK_DOOR("DARK_OAK_DOOR", true),
@@ -31,23 +31,19 @@ public enum LegacyMaterialBlockType {
     FLOWER_POT("FLOWER_POT"),
     IRON_DOOR("IRON_DOOR_BLOCK", true),
     JUNGLE_DOOR("JUNGLE_DOOR", true),
-	LAVA("STATIONARY_LAVA"),
+    LAVA("STATIONARY_LAVA"),
     NETHER_WART("NETHER_WARTS"),
     /*
      <     PURPUR_DOUBLE_SLAB
      */
-	POTATOES("POTATO"),
+    POTATOES("POTATO"),
     REDSTONE_LAMP("REDSTONE_LAMP_OFF", "REDSTONE_LAMP_ON"),
     REDSTONE_ORE("REDSTONE_ORE", "GLOWING_REDSTONE_ORE"),
     REDSTONE_TORCH("REDSTONE_TORCH_ON", "REDSTONE_TORCH_OFF"),
     SPRUCE_DOOR("SPRUCE_DOOR"),
     SUGAR_CANE("SUGAR_CANE_BLOCK"),
-	WATER("STATIONARY_WATER"),
+    WATER("STATIONARY_WATER"),
     WHEAT("CROPS");
-    final String blockMaterialName;
-    final String alternateBlockMaterialName;
-    final Material blockMaterial, alternateBlockMaterial;
-    final boolean requiresData; // some blocks require data to render properly (double blocks)
     final static Map<String, LegacyMaterialBlockType> lookupTable = new HashMap();
     final static Map<String, LegacyMaterialBlockType> reverseLookupTable = new HashMap();
 
@@ -55,11 +51,16 @@ public enum LegacyMaterialBlockType {
         for (LegacyMaterialBlockType t : values()) {
             lookupTable.put(t.name(), t);
             reverseLookupTable.put(t.blockMaterialName, t);
-            if(t.alternateBlockMaterialName != null) {
+            if (t.alternateBlockMaterialName != null) {
                 reverseLookupTable.put(t.alternateBlockMaterialName, t);
             }
         }
     }
+
+    final String blockMaterialName;
+    final String alternateBlockMaterialName;
+    final Material blockMaterial, alternateBlockMaterial;
+    final boolean requiresData; // some blocks require data to render properly (double blocks)
 
     private LegacyMaterialBlockType(String blockMaterial) {
         this(blockMaterial, null, false);
@@ -81,6 +82,14 @@ public enum LegacyMaterialBlockType {
         this.alternateBlockMaterial = Material.getMaterial(alternateBlockMaterialName);
     }
 
+    public static LegacyMaterialBlockType getMaterial(String lookup) {
+        return lookupTable.get(lookup);
+    }
+
+    public static LegacyMaterialBlockType getFromLegacy(String lookup) {
+        return reverseLookupTable.get(lookup);
+    }
+
     public String getBlockMaterialName() {
         return blockMaterialName;
     }
@@ -99,14 +108,6 @@ public enum LegacyMaterialBlockType {
 
     public boolean requiresData() {
         return requiresData;
-    }
-
-    public static LegacyMaterialBlockType getMaterial(String lookup) {
-        return lookupTable.get(lookup);
-    }
-
-    public static LegacyMaterialBlockType getFromLegacy(String lookup) {
-        return reverseLookupTable.get(lookup);
     }
 
 }

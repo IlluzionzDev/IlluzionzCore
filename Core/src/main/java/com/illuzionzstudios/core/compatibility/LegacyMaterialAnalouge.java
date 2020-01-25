@@ -8,8 +8,9 @@ import java.util.Map;
 
 /**
  * Near-Materials for older servers 1.7+
- * @since 2019-08-23
+ *
  * @author jascotty2
+ * @since 2019-08-23
  */
 public enum LegacyMaterialAnalouge {
 
@@ -476,16 +477,6 @@ public enum LegacyMaterialAnalouge {
 
     ;
 
-    final ServerVersion versionLessThan;
-    final String modernMaterial;
-    final String legacyMaterial;
-    final Byte legacyData;
-    final ServerVersion legacyMinimumVersion;
-    final String compatibleMaterial;
-    final Byte compatibleData;
-    final Material material;
-    final Byte data;
-
     // map to speed up name->material lookups
     private static final Map<String, LegacyMaterialAnalouge> lookupMap = new HashMap();
 
@@ -495,9 +486,15 @@ public enum LegacyMaterialAnalouge {
         }
     }
 
-    public static LegacyMaterialAnalouge lookupAnalouge(String material) {
-        return lookupMap.get(material);
-    }
+    final ServerVersion versionLessThan;
+    final String modernMaterial;
+    final String legacyMaterial;
+    final Byte legacyData;
+    final ServerVersion legacyMinimumVersion;
+    final String compatibleMaterial;
+    final Byte compatibleData;
+    final Material material;
+    final Byte data;
 
     private LegacyMaterialAnalouge(ServerVersion versionLessThan, String legacyMaterial, byte legacyData) {
         this(versionLessThan, null, legacyMaterial, legacyData, null, null, null);
@@ -532,24 +529,23 @@ public enum LegacyMaterialAnalouge {
     }
 
     /**
-     *
      * @param versionLessThan AKA, what server version was this material added to minecraft?
-     * @param modernAnalouge post-1.13 material name, if applicable
-     * @param legacyMaterial pre-1.13 material name
-     * @param legacyData data for defining specific legacy items
+     * @param modernAnalouge  post-1.13 material name, if applicable
+     * @param legacyMaterial  pre-1.13 material name
+     * @param legacyData      data for defining specific legacy items
      */
     private LegacyMaterialAnalouge(ServerVersion versionLessThan, String modernAnalouge, String legacyMaterial, Byte legacyData, ServerVersion legacyMinimum, String compatMaterial, Byte compatData) {
         this.versionLessThan = versionLessThan;
         this.modernMaterial = modernAnalouge;
         this.legacyMaterial = legacyMaterial;
         this.legacyData = legacyData;
-        
+
         this.legacyMinimumVersion = legacyMinimum;
         this.compatibleMaterial = compatMaterial;
         this.compatibleData = compatData;
 
         if (ServerVersion.isServerVersionBelow(versionLessThan)) {
-            if(legacyMinimumVersion != null && ServerVersion.isServerVersionBelow(legacyMinimumVersion)) {
+            if (legacyMinimumVersion != null && ServerVersion.isServerVersionBelow(legacyMinimumVersion)) {
                 // fallback material not available, so use its fallback
                 material = Material.getMaterial(compatibleMaterial);
                 data = compatibleData;
@@ -568,6 +564,10 @@ public enum LegacyMaterialAnalouge {
             material = null;
             data = null;
         }
+    }
+
+    public static LegacyMaterialAnalouge lookupAnalouge(String material) {
+        return lookupMap.get(material);
     }
 
     public Material getMaterial() {

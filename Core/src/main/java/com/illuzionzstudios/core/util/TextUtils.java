@@ -14,9 +14,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Illuzionz on 12 2019
+ * Copyright © 2020 Property of Illuzionz Studios, LLC
+ * All rights reserved. No part of this publication may be reproduced, distributed, or
+ * transmitted in any form or by any means, including photocopying, recording, or other
+ * electronic or mechanical methods, without the prior written permission of the publisher,
+ * except in the case of brief quotations embodied in critical reviews and certain other
+ * noncommercial uses permitted by copyright law. Any licensing of this software overrides
+ * this statement.
  */
+
 public class TextUtils {
+
+    protected static final List<Charset> supportedCharsets = new ArrayList();
+
+    static {
+        supportedCharsets.add(StandardCharsets.UTF_8); // UTF-8 BOM: EF BB BF
+        supportedCharsets.add(StandardCharsets.ISO_8859_1); // also starts with EF BB BF
+        //supportedCharsets.add(StandardCharsets.UTF_16LE); // FF FE
+        //supportedCharsets.add(StandardCharsets.UTF_16BE); // FE FF
+        //supportedCharsets.add(StandardCharsets.UTF_16);
+        try {
+            supportedCharsets.add(Charset.forName("windows-1253"));
+            supportedCharsets.add(Charset.forName("ISO-8859-7"));
+        } catch (Exception e) {
+        } // UnsupportedCharsetException technically can be thrown, but can also be ignored
+        supportedCharsets.add(StandardCharsets.US_ASCII);
+    }
 
     public static String formatText(String text) {
         return formatText(text, false);
@@ -42,7 +65,8 @@ public class TextUtils {
         if (s == null || s.equals(""))
             return "";
         StringBuilder hidden = new StringBuilder();
-        for (char c : s.toCharArray()) hidden.append(ChatColor.COLOR_CHAR).append(';').append(ChatColor.COLOR_CHAR).append(c);
+        for (char c : s.toCharArray())
+            hidden.append(ChatColor.COLOR_CHAR).append(';').append(ChatColor.COLOR_CHAR).append(c);
         return hidden.toString();
     }
 
@@ -73,22 +97,6 @@ public class TextUtils {
             return "";
         }
         return s.replaceAll(ChatColor.COLOR_CHAR + ";" + ChatColor.COLOR_CHAR + "|" + ChatColor.COLOR_CHAR, "");
-    }
-
-    protected static final List<Charset> supportedCharsets = new ArrayList();
-
-    static {
-        supportedCharsets.add(StandardCharsets.UTF_8); // UTF-8 BOM: EF BB BF
-        supportedCharsets.add(StandardCharsets.ISO_8859_1); // also starts with EF BB BF
-        //supportedCharsets.add(StandardCharsets.UTF_16LE); // FF FE
-        //supportedCharsets.add(StandardCharsets.UTF_16BE); // FE FF
-        //supportedCharsets.add(StandardCharsets.UTF_16);
-        try {
-            supportedCharsets.add(Charset.forName("windows-1253"));
-            supportedCharsets.add(Charset.forName("ISO-8859-7"));
-        } catch (Exception e) {
-        } // UnsupportedCharsetException technically can be thrown, but can also be ignored
-        supportedCharsets.add(StandardCharsets.US_ASCII);
     }
 
     public static Charset detectCharset(File f, Charset def) {

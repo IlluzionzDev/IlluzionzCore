@@ -22,8 +22,15 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * Created by Illuzionz on 12 2019
+ * Copyright © 2020 Property of Illuzionz Studios, LLC
+ * All rights reserved. No part of this publication may be reproduced, distributed, or
+ * transmitted in any form or by any means, including photocopying, recording, or other
+ * electronic or mechanical methods, without the prior written permission of the publisher,
+ * except in the case of brief quotations embodied in critical reviews and certain other
+ * noncommercial uses permitted by copyright law. Any licensing of this software overrides
+ * this statement.
  */
+
 public class Locale {
 
     private static final Pattern OLD_NODE_PATTERN = Pattern.compile("^([^ ]+)\\s*=\\s*\"?(.*?)\"?$");
@@ -38,8 +45,8 @@ public class Locale {
      * Instantiate the Locale class for future use
      *
      * @param plugin Owning Plugin
-     * @param file Location of the locale file
-     * @param name The locale name for the language
+     * @param file   Location of the locale file
+     * @param name   The locale name for the language
      */
     public Locale(Plugin plugin, File file, String name) {
         this.plugin = plugin;
@@ -51,7 +58,7 @@ public class Locale {
      * Load a default-included lang file from the plugin's jar file
      *
      * @param plugin plugin to load from
-     * @param name name of the default locale, eg "en_US"
+     * @param name   name of the default locale, eg "en_US"
      * @return returns the loaded Locale, or null if there was an error
      */
     public static Locale loadDefaultLocale(JavaPlugin plugin, String name) {
@@ -63,7 +70,7 @@ public class Locale {
      * Load a locale from this plugin's locale directory
      *
      * @param plugin plugin to load from
-     * @param name name of the locale, eg "en_US"
+     * @param name   name of the locale, eg "en_US"
      * @return returns the loaded Locale, or null if there was an error
      */
     public static Locale loadLocale(JavaPlugin plugin, String name) {
@@ -124,8 +131,8 @@ public class Locale {
     /**
      * Save a locale file from the Plugin's Resources to the locale folder
      *
-     * @param plugin plugin owning the locale file
-     * @param locale the specific locale file to save
+     * @param plugin   plugin owning the locale file
+     * @param locale   the specific locale file to save
      * @param fileName where to save the file
      * @return true if the operation was successful, false otherwise
      */
@@ -136,8 +143,8 @@ public class Locale {
     /**
      * Save a locale file from an InputStream to the locale folder
      *
-     * @param plugin plugin owning the locale file
-     * @param in file to save
+     * @param plugin   plugin owning the locale file
+     * @param in       file to save
      * @param fileName the name of the file to save
      * @return true if the operation was successful, false otherwise
      */
@@ -146,7 +153,7 @@ public class Locale {
     }
 
     private static boolean saveLocale(Plugin plugin, InputStream in, String fileName, boolean builtin) {
-        if(in == null) return false;
+        if (in == null) return false;
         File localeFolder = new File(plugin.getDataFolder(), "locales/");
         if (!localeFolder.exists()) localeFolder.mkdirs();
 
@@ -238,48 +245,6 @@ public class Locale {
         return false;
     }
 
-    /**
-     * Clear the previous message cache and load new messages directly from file
-     *
-     * @return reload messages from file
-     */
-    public boolean reloadMessages() {
-        if (!this.file.exists()) {
-            plugin.getLogger().warning("Could not find file for locale \"" + this.name + "\"");
-            return false;
-        }
-
-        this.nodes.clear(); // Clear previous data (if any)
-
-        // guess what encoding this file is in
-        Charset charset = TextUtils.detectCharset(file, null);
-        if(charset == null) {
-            plugin.getLogger().warning("Could not determine charset for locale \"" + this.name + "\"");
-            charset = StandardCharsets.UTF_8;
-        }
-
-        // load in the file!
-        try (FileInputStream stream = new FileInputStream(file);
-             BufferedReader source = new BufferedReader(new InputStreamReader((InputStream) stream, charset));
-             BufferedReader reader = translatePropertyToYAML(source, charset);) {
-            Config lang = new Config(file);
-            lang.load(reader);
-            translateMsgRoot(lang, file, charset);
-            // load lists as strings with newlines
-            lang.getValues(true).forEach((k, v) -> nodes.put(k,
-                    v instanceof List
-                            ? (((List) v).stream().map(l -> l.toString()).collect(Collectors.joining("\n")).toString())
-                            : v.toString()));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        } catch (InvalidConfigurationException ex) {
-            Logger.severe("Configuration error in language file \"" + file.getName() + "\"", ex);
-            return false;
-        }
-        return true;
-    }
-
     protected static BufferedReader translatePropertyToYAML(BufferedReader source, Charset charset) throws IOException {
         StringBuilder output = new StringBuilder();
         String line, line1;
@@ -288,7 +253,7 @@ public class Locale {
                 // remove BOM markers, if any
                 line1 = line;
                 line = line.replaceAll("[\uFEFF\uFFFE\u200B]", "");
-                if(line1.length() != line.length()) {
+                if (line1.length() != line.length()) {
                     output.append(line1.substring(0, line1.length() - line.length()));
                 }
             }
@@ -365,6 +330,71 @@ public class Locale {
         }
     }
 
+    private static void copy(InputStream input, OutputStream output) {
+        int n;
+        byte[] buffer = new byte[1024 * 4];
+
+        try {
+            while ((n = input.read(buffer)) != -1) {
+                output.write(buffer, 0, n);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Color a message
+     *
+     * @param string String to format
+     * @return Formatted string
+     */
+    public static String color(String string) {
+        return ChatColor.translateAlternateColorCodes('&', string);
+    }
+
+    /**
+     * Clear the previous message cache and load new messages directly from file
+     *
+     * @return reload messages from file
+     */
+    public boolean reloadMessages() {
+        if (!this.file.exists()) {
+            plugin.getLogger().warning("Could not find file for locale \"" + this.name + "\"");
+            return false;
+        }
+
+        this.nodes.clear(); // Clear previous data (if any)
+
+        // guess what encoding this file is in
+        Charset charset = TextUtils.detectCharset(file, null);
+        if (charset == null) {
+            plugin.getLogger().warning("Could not determine charset for locale \"" + this.name + "\"");
+            charset = StandardCharsets.UTF_8;
+        }
+
+        // load in the file!
+        try (FileInputStream stream = new FileInputStream(file);
+             BufferedReader source = new BufferedReader(new InputStreamReader((InputStream) stream, charset));
+             BufferedReader reader = translatePropertyToYAML(source, charset);) {
+            Config lang = new Config(file);
+            lang.load(reader);
+            translateMsgRoot(lang, file, charset);
+            // load lists as strings with newlines
+            lang.getValues(true).forEach((k, v) -> nodes.put(k,
+                    v instanceof List
+                            ? (((List) v).stream().map(l -> l.toString()).collect(Collectors.joining("\n")).toString())
+                            : v.toString()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } catch (InvalidConfigurationException ex) {
+            Logger.severe("Configuration error in language file \"" + file.getName() + "\"", ex);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Supply the Message object with the plugins prefix.
      *
@@ -392,7 +422,7 @@ public class Locale {
      * @return the message for the specified node
      */
     public Message getMessage(String node) {
-        if(this.nodes.containsKey(node + ".message")) {
+        if (this.nodes.containsKey(node + ".message")) {
             node += ".message";
         }
         return this.getMessageOrDefault(node, node);
@@ -406,12 +436,11 @@ public class Locale {
      * @return the message for the specified node. Default if none found
      */
     public Message getMessageOrDefault(String node, String defaultValue) {
-        if(this.nodes.containsKey(node + ".message")) {
+        if (this.nodes.containsKey(node + ".message")) {
             node += ".message";
         }
         return supplyPrefix(new Message(this.nodes.getOrDefault(node, defaultValue)));
     }
-
 
     /**
      * Return the locale name (i.e. "en_US")
@@ -420,29 +449,6 @@ public class Locale {
      */
     public String getName() {
         return name;
-    }
-
-    private static void copy(InputStream input, OutputStream output) {
-        int n;
-        byte[] buffer = new byte[1024 * 4];
-
-        try {
-            while ((n = input.read(buffer)) != -1) {
-                output.write(buffer, 0, n);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Color a message
-     *
-     * @param string String to format
-     * @return Formatted string
-     */
-    public static String color(String string) {
-        return ChatColor.translateAlternateColorCodes('&', string);
     }
 
 }

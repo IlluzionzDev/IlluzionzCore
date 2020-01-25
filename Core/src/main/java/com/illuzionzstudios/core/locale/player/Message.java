@@ -1,9 +1,5 @@
 package com.illuzionzstudios.core.locale.player;
 
-/**
- * Created by Illuzionz on 12 2019
- */
-
 import com.illuzionzstudios.core.compatibility.ServerVersion;
 import lombok.Setter;
 import net.md_5.bungee.api.ChatColor;
@@ -13,6 +9,16 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
+
+/**
+ * Copyright © 2020 Property of Illuzionz Studios, LLC
+ * All rights reserved. No part of this publication may be reproduced, distributed, or
+ * transmitted in any form or by any means, including photocopying, recording, or other
+ * electronic or mechanical methods, without the prior written permission of the publisher,
+ * except in the case of brief quotations embodied in critical reviews and certain other
+ * noncommercial uses permitted by copyright law. Any licensing of this software overrides
+ * this statement.
+ */
 
 /**
  * The Message object. This holds the message to be sent

@@ -7,11 +7,7 @@ import java.util.Random;
 
 public class LegacyPotionEffects {
 
-    private LegacyPotionEffects() {
-    }
-
     protected final static Random rand = new Random();
-
     private final static HashMap<Integer, String> potionEffectNames = new HashMap() {
         {
             put(PotionEffectType.SPEED.getId(), "Speed");
@@ -39,6 +35,9 @@ public class LegacyPotionEffects {
             put(PotionEffectType.SATURATION.getId(), "Saturation");
         }
     };
+
+    private LegacyPotionEffects() {
+    }
 
     public static String getEffectName(PotionEffectType e) {
         if (e == null) {

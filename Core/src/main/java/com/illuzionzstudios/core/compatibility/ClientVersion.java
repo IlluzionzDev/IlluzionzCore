@@ -6,8 +6,17 @@ import java.util.HashMap;
 import java.util.UUID;
 
 /**
- * Handy reference for checking a connected client's Minecraft version<br>
- * NOTE: this is automatically initialized through SongodaCore
+ * Copyright © 2020 Property of Illuzionz Studios, LLC
+ * All rights reserved. No part of this publication may be reproduced, distributed, or
+ * transmitted in any form or by any means, including photocopying, recording, or other
+ * electronic or mechanical methods, without the prior written permission of the publisher,
+ * except in the case of brief quotations embodied in critical reviews and certain other
+ * noncommercial uses permitted by copyright law. Any licensing of this software overrides
+ * this statement.
+ */
+
+/**
+ * Handy reference for checking a connected client's Minecraft version
  */
 public class ClientVersion {
 
@@ -15,7 +24,7 @@ public class ClientVersion {
 
     /**
      * Check to see what client version this player is connected to the server
-     * with. Note that if a player is connecting with a newer client than the server, 
+     * with. Note that if a player is connecting with a newer client than the server,
      * this value will simply be the server version.
      *
      * @param player Player to check
@@ -53,7 +62,6 @@ public class ClientVersion {
 //            }
 //        }, 20);
 //    }
-
     private static ServerVersion protocolToVersion(int version) {
         // https://github.com/ViaVersion/ViaVersion/blob/master/common/src/main/java/us/myles/ViaVersion/api/protocol/ProtocolVersion.java
         // https://github.com/ProtocolSupport/ProtocolSupport/blob/master/src/protocolsupport/api/ProtocolVersion.java

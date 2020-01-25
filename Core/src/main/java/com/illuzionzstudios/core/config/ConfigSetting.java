@@ -16,13 +16,13 @@ public class ConfigSetting {
         this.key = key;
     }
 
-    public ConfigSetting(@NotNull Config config, @NotNull String key, @NotNull Object defaultValue, String ... comment) {
+    public ConfigSetting(@NotNull Config config, @NotNull String key, @NotNull Object defaultValue, String... comment) {
         this.config = config;
         this.key = key;
         config.setDefault(key, defaultValue, comment);
     }
 
-    public ConfigSetting(@NotNull Config config, @NotNull String key, @NotNull Object defaultValue, ConfigFormattingRules.CommentStyle commentStyle, String ... comment) {
+    public ConfigSetting(@NotNull Config config, @NotNull String key, @NotNull Object defaultValue, ConfigFormattingRules.CommentStyle commentStyle, String... comment) {
         this.config = config;
         this.key = key;
         config.setDefault(key, defaultValue, commentStyle, comment);

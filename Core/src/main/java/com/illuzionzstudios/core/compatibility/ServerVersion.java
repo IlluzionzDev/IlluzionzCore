@@ -21,22 +21,6 @@ public enum ServerVersion {
         return UNKNOWN;
     }
 
-    public boolean isLessThan(ServerVersion other) {
-        return this.ordinal() < other.ordinal();
-    }
-
-    public boolean isAtOrBelow(ServerVersion other) {
-        return this.ordinal() <= other.ordinal();
-    }
-
-    public boolean isGreaterThan(ServerVersion other) {
-        return this.ordinal() > other.ordinal();
-    }
-
-    public boolean isAtLeast(ServerVersion other) {
-        return this.ordinal() >= other.ordinal();
-    }
-
     public static String getServerVersionString() {
         return serverPackageVersion;
     }
@@ -71,5 +55,21 @@ public enum ServerVersion {
 
     public static boolean isServerVersionBelow(ServerVersion version) {
         return serverVersion.ordinal() < version.ordinal();
+    }
+
+    public boolean isLessThan(ServerVersion other) {
+        return this.ordinal() < other.ordinal();
+    }
+
+    public boolean isAtOrBelow(ServerVersion other) {
+        return this.ordinal() <= other.ordinal();
+    }
+
+    public boolean isGreaterThan(ServerVersion other) {
+        return this.ordinal() > other.ordinal();
+    }
+
+    public boolean isAtLeast(ServerVersion other) {
+        return this.ordinal() >= other.ordinal();
     }
 }

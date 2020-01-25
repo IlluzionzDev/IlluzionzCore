@@ -1,9 +1,5 @@
 package com.illuzionzstudios.core.plugin;
 
-/**
- * Created by Illuzionz on 12 2019
- */
-
 import com.illuzionzstudios.core.bukkit.BukkitScheduler;
 import com.illuzionzstudios.core.config.Config;
 import com.illuzionzstudios.core.locale.Locale;
@@ -17,18 +13,33 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.List;
 
 /**
+ * Copyright © 2020 Property of Illuzionz Studios, LLC
+ * All rights reserved. No part of this publication may be reproduced, distributed, or
+ * transmitted in any form or by any means, including photocopying, recording, or other
+ * electronic or mechanical methods, without the prior written permission of the publisher,
+ * except in the case of brief quotations embodied in critical reviews and certain other
+ * noncommercial uses permitted by copyright law. Any licensing of this software overrides
+ * this statement.
+ */
+
+/**
  * All plugins with this library extend here to create the base plugin
  */
 public abstract class IlluzionzPlugin extends JavaPlugin {
 
+    public static final boolean DEBUG = true;
+    protected static IlluzionzPlugin INSTANCE;
     protected Locale locale;
     protected Config config = new Config(this);
-    protected static IlluzionzPlugin INSTANCE;
-
     protected ConsoleCommandSender console = Bukkit.getConsoleSender();
     private boolean emergencyStop = false;
 
-    public static final boolean DEBUG = true;
+    /**
+     * Get instance of a plugin, to be overriden
+     */
+    public static IlluzionzPlugin getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public final void onLoad() {
@@ -45,7 +56,7 @@ public abstract class IlluzionzPlugin extends JavaPlugin {
 
     @Override
     public final void onEnable() {
-        if(emergencyStop) {
+        if (emergencyStop) {
             setEnabled(false);
             return;
         }
@@ -84,7 +95,6 @@ public abstract class IlluzionzPlugin extends JavaPlugin {
         console.sendMessage(" "); // blank line to separate chatter
     }
 
-
     @Override
     public final void onDisable() {
         onPluginDisable();
@@ -109,13 +119,6 @@ public abstract class IlluzionzPlugin extends JavaPlugin {
      * Called after reloadConfig​() is called
      */
     public abstract void onConfigReload();
-
-    /**
-     * Get instance of a plugin, to be overriden
-     */
-    public static IlluzionzPlugin getInstance() {
-        return INSTANCE;
-    }
 
     /**
      * Any other plugin configuration files used by the plugin.
@@ -152,8 +155,8 @@ public abstract class IlluzionzPlugin extends JavaPlugin {
      * Set the plugin's locale to a specific language
      *
      * @param localeName locale to use, eg "en_US"
-     * @param reload optionally reload the loaded locale if the locale didn't
-     * change
+     * @param reload     optionally reload the loaded locale if the locale didn't
+     *                   change
      * @return true if the locale exists and was loaded successfully
      */
     public boolean setLocale(String localeName, boolean reload) {

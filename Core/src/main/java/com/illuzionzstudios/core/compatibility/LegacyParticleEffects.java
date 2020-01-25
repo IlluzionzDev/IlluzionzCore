@@ -15,91 +15,11 @@ import java.util.logging.Logger;
 
 /**
  * Particle effects for servers 1.8 and below
- * @since 2019-08-23
+ *
  * @author jascotty2
+ * @since 2019-08-23
  */
 public class LegacyParticleEffects {
-
-    public static enum Type {
-
-        EXPLOSION_NORMAL("explode"),
-        EXPLOSION_LARGE("largeexplode"),
-        EXPLOSION_HUGE("hugeexplosion"),
-        FIREWORKS_SPARK("fireworksSpark"),
-        WATER_BUBBLE("bubble"),
-        WATER_SPLASH("splash"),
-        WATER_WAKE("wake", ServerVersion.V1_8),
-        SUSPENDED("suspended"),
-        SUSPENDED_DEPTH("depthsuspend"),
-        CRIT("crit"),
-        CRIT_MAGIC("magicCrit"),
-        SMOKE_NORMAL("smoke"),
-        SMOKE_LARGE("largesmoke"),
-        SPELL("spell"),
-        SPELL_INSTANT("instantSpell"),
-        SPELL_MOB("mobSpell"),
-        SPELL_MOB_AMBIENT("mobSpellAmbient"),
-        SPELL_WITCH("witchMagic"),
-        DRIP_WATER("dripWater"),
-        DRIP_LAVA("dripLava"),
-        VILLAGER_ANGRY("angryVillager"),
-        VILLAGER_HAPPY("happyVillager"),
-        TOWN_AURA("townaura"),
-        NOTE("note"),
-        PORTAL("portal"),
-        ENCHANTMENT_TABLE("enchantmenttable"),
-        FLAME("flame"),
-        LAVA("lava"),
-        FOOTSTEP("footstep"),
-        CLOUD("cloud"),
-        REDSTONE("reddust"),
-        SNOWBALL("snowballpoof"),
-        SNOW_SHOVEL("snowshovel"),
-        SLIME("slime"),
-        HEART("heart"),
-        BARRIER("barrier", ServerVersion.V1_8),
-        /**
-         * Used when a block is broken
-         */
-        ITEM_CRACK("iconcrack_"),
-        BLOCK_CRACK("blockcrack_", ServerVersion.V1_8),
-        BLOCK_DUST("blockdust_", ServerVersion.V1_8),
-        WATER_DROP("droplet", ServerVersion.V1_8),
-        ITEM_TAKE("take", ServerVersion.V1_8),
-        MOB_APPEARANCE("mobappearance", ServerVersion.V1_8),
-        TOOL_BREAK("tilecrack_", ServerVersion.UNKNOWN, ServerVersion.V1_7);
-
-        public final String name;
-        public final ServerVersion minVersion;
-        public final ServerVersion maxVersion;
-
-        private Type(String name) {
-            this.name = name;
-            this.minVersion = ServerVersion.UNKNOWN;
-            this.maxVersion = null;
-        }
-
-        private Type(String name, ServerVersion minVersion) {
-            this.name = name;
-            this.minVersion = minVersion;
-            this.maxVersion = null;
-        }
-
-        private Type(String name, ServerVersion minVersion, ServerVersion maxVersion) {
-            this.name = name;
-            this.minVersion = minVersion;
-            this.maxVersion = maxVersion;
-        }
-
-        public static Type getById(String id) {
-            for (Type t : Type.values()) {
-                if (t.name.equalsIgnoreCase(id) || t.name().equalsIgnoreCase(id)) {
-                    return t;
-                }
-            }
-            return null;
-        }
-    }
 
     private static final String version = getNMSVersion();
     private static boolean enabled = true;
@@ -158,19 +78,18 @@ public class LegacyParticleEffects {
     }
 
     /**
-     *
-     * @param l exact location to spawn the particle
-     * @param e particle effect type
-     * @param xx for notes, this is a value 0-1 for the color ([0-24]/24), for
-     * redstone this is the red value 0-1 ([0-255]/255). 
-     * Otherwise this is the distance for particles to fly on the x-axis.
-     * @param yy for redstone this is the green value 0-1 ([0-255]/255)
-     * Otherwise this is the distance for particles to fly on the y-axis.
-     * @param zz for redstone this is the blue value 0-1 ([0-255]/255) 
-     * Otherwise this is the distance for particles to fly on the z-axis.
-     * @param effectSpeed particle effect speed
+     * @param l                 exact location to spawn the particle
+     * @param e                 particle effect type
+     * @param xx                for notes, this is a value 0-1 for the color ([0-24]/24), for
+     *                          redstone this is the red value 0-1 ([0-255]/255).
+     *                          Otherwise this is the distance for particles to fly on the x-axis.
+     * @param yy                for redstone this is the green value 0-1 ([0-255]/255)
+     *                          Otherwise this is the distance for particles to fly on the y-axis.
+     * @param zz                for redstone this is the blue value 0-1 ([0-255]/255)
+     *                          Otherwise this is the distance for particles to fly on the z-axis.
+     * @param effectSpeed       particle effect speed
      * @param amountOfParticles extra particles to spawn (client-side)
-     * @param localOnly list of players to send the packets to, or null for all players
+     * @param localOnly         list of players to send the packets to, or null for all players
      */
     public static void createParticle(Location l, Type e, float xx, float yy, float zz, float effectSpeed, int amountOfParticles, List<Player> localOnly) {
         if (!enabled || e == null || effectSpeed < 0 || amountOfParticles < 0
@@ -251,5 +170,86 @@ public class LegacyParticleEffects {
         Object cbPlayer = cb_craftPlayer_getHandle.invoke(to);
         Object mcConnection = mc_entityPlayer_playerConnection.get(cbPlayer);
         mc_playerConnection_sendPacket.invoke(mcConnection, packet);
+    }
+
+    public static enum Type {
+
+        EXPLOSION_NORMAL("explode"),
+        EXPLOSION_LARGE("largeexplode"),
+        EXPLOSION_HUGE("hugeexplosion"),
+        FIREWORKS_SPARK("fireworksSpark"),
+        WATER_BUBBLE("bubble"),
+        WATER_SPLASH("splash"),
+        WATER_WAKE("wake", ServerVersion.V1_8),
+        SUSPENDED("suspended"),
+        SUSPENDED_DEPTH("depthsuspend"),
+        CRIT("crit"),
+        CRIT_MAGIC("magicCrit"),
+        SMOKE_NORMAL("smoke"),
+        SMOKE_LARGE("largesmoke"),
+        SPELL("spell"),
+        SPELL_INSTANT("instantSpell"),
+        SPELL_MOB("mobSpell"),
+        SPELL_MOB_AMBIENT("mobSpellAmbient"),
+        SPELL_WITCH("witchMagic"),
+        DRIP_WATER("dripWater"),
+        DRIP_LAVA("dripLava"),
+        VILLAGER_ANGRY("angryVillager"),
+        VILLAGER_HAPPY("happyVillager"),
+        TOWN_AURA("townaura"),
+        NOTE("note"),
+        PORTAL("portal"),
+        ENCHANTMENT_TABLE("enchantmenttable"),
+        FLAME("flame"),
+        LAVA("lava"),
+        FOOTSTEP("footstep"),
+        CLOUD("cloud"),
+        REDSTONE("reddust"),
+        SNOWBALL("snowballpoof"),
+        SNOW_SHOVEL("snowshovel"),
+        SLIME("slime"),
+        HEART("heart"),
+        BARRIER("barrier", ServerVersion.V1_8),
+        /**
+         * Used when a block is broken
+         */
+        ITEM_CRACK("iconcrack_"),
+        BLOCK_CRACK("blockcrack_", ServerVersion.V1_8),
+        BLOCK_DUST("blockdust_", ServerVersion.V1_8),
+        WATER_DROP("droplet", ServerVersion.V1_8),
+        ITEM_TAKE("take", ServerVersion.V1_8),
+        MOB_APPEARANCE("mobappearance", ServerVersion.V1_8),
+        TOOL_BREAK("tilecrack_", ServerVersion.UNKNOWN, ServerVersion.V1_7);
+
+        public final String name;
+        public final ServerVersion minVersion;
+        public final ServerVersion maxVersion;
+
+        private Type(String name) {
+            this.name = name;
+            this.minVersion = ServerVersion.UNKNOWN;
+            this.maxVersion = null;
+        }
+
+        private Type(String name, ServerVersion minVersion) {
+            this.name = name;
+            this.minVersion = minVersion;
+            this.maxVersion = null;
+        }
+
+        private Type(String name, ServerVersion minVersion, ServerVersion maxVersion) {
+            this.name = name;
+            this.minVersion = minVersion;
+            this.maxVersion = maxVersion;
+        }
+
+        public static Type getById(String id) {
+            for (Type t : Type.values()) {
+                if (t.name.equalsIgnoreCase(id) || t.name().equalsIgnoreCase(id)) {
+                    return t;
+                }
+            }
+            return null;
+        }
     }
 }

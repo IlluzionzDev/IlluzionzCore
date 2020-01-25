@@ -1,14 +1,14 @@
 package com.illuzionzstudios.core.config;
 
 import com.illuzionzstudios.core.util.TextUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConstructor;
 import org.bukkit.configuration.file.YamlRepresenter;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
 /**
  * Configuration settings for a plugin
  *
- * @since 2019-08-28
  * @author jascotty2
+ * @since 2019-08-28
  */
 public class Config extends ConfigSection {
 
@@ -43,20 +43,20 @@ public class Config extends ConfigSection {
     // public new (Map<String, ?> args)
      */
     protected static final String BLANK_CONFIG = "{}\n";
-
-    protected File file;
     protected final ConfigFileConfigurationAdapter config = new ConfigFileConfigurationAdapter(this);
-    protected Comment headerComment = null;
-    protected Comment footerComment = null;
+    protected final Pattern yamlNode = Pattern.compile("^( *)([^:\\{\\}\\[\\],&\\*#\\?\\|\\-<>=!%@`]+):(.*)$");
     final String dirName, fileName;
     final Plugin plugin;
     final DumperOptions yamlOptions = new DumperOptions();
     final Representer yamlRepresenter = new YamlRepresenter();
     final Yaml yaml = new Yaml(new YamlConstructor(), yamlRepresenter, yamlOptions);
+    protected File file;
+    protected Comment headerComment = null;
+    protected Comment footerComment = null;
     Charset defaultCharset = StandardCharsets.UTF_8;
     SaveTask saveTask;
-    Timer autosaveTimer;
     ////////////// Config settings ////////////////
+    Timer autosaveTimer;
     /**
      * save file whenever a change is made
      */
@@ -123,6 +123,16 @@ public class Config extends ConfigSection {
         fileName = file;
     }
 
+    protected static int getOffset(String s) {
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < chars.length; ++i) {
+            if (chars[i] != ' ') {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     @NotNull
     public ConfigFileConfigurationAdapter getFileConfig() {
         return config;
@@ -171,7 +181,7 @@ public class Config extends ConfigSection {
 
     /**
      * Should comments from the config file be loaded when loading?
-     * 
+     *
      * @param loadComments set to false if you do not want to preserve node comments
      */
     public void setLoadComments(boolean loadComments) {
@@ -185,7 +195,7 @@ public class Config extends ConfigSection {
     /**
      * Should the configuration automatically save whenever it's been changed? <br>
      * All saves are done asynchronously, so this should not impact server performance.
-     * 
+     *
      * @param autosave set to true if autosaving is enabled.
      * @return this class
      */
@@ -202,7 +212,7 @@ public class Config extends ConfigSection {
     /**
      * If autosave is enabled, this is the delay between a change and when the save is started. <br>
      * If the configuration is changed within this period, the timer is not reset.
-     * 
+     *
      * @param autosaveInterval time in seconds
      * @return this class
      */
@@ -241,7 +251,7 @@ public class Config extends ConfigSection {
 
     /**
      * Default comment applied to config nodes
-     * 
+     *
      * @return this config
      */
     @NotNull
@@ -260,7 +270,7 @@ public class Config extends ConfigSection {
 
     /**
      * Default comment applied to section nodes
-     * 
+     *
      * @return this config
      */
     @NotNull
@@ -278,7 +288,7 @@ public class Config extends ConfigSection {
 
     /**
      * Extra lines to put between root nodes
-     * 
+     *
      * @return this config
      */
     @NotNull
@@ -298,7 +308,7 @@ public class Config extends ConfigSection {
     /**
      * Extra lines to put in front of comments. <br>
      * This is separate from rootNodeSpacing, if applicable.
-     * 
+     *
      * @return this config
      */
     @NotNull
@@ -308,31 +318,11 @@ public class Config extends ConfigSection {
     }
 
     @NotNull
-    public Config setHeader(@NotNull String... description) {
-        if (description.length == 0) {
-            headerComment = null;
-        } else {
-            headerComment = new Comment(description);
-        }
-        return this;
-    }
-
-    @NotNull
     public Config setHeader(@Nullable ConfigFormattingRules.CommentStyle commentStyle, @NotNull String... description) {
         if (description.length == 0) {
             headerComment = null;
         } else {
             headerComment = new Comment(commentStyle, description);
-        }
-        return this;
-    }
-
-    @NotNull
-    public Config setHeader(@Nullable List<String> description) {
-        if (description == null || description.isEmpty()) {
-            headerComment = null;
-        } else {
-            headerComment = new Comment(description);
         }
         return this;
     }
@@ -354,6 +344,26 @@ public class Config extends ConfigSection {
         } else {
             return Collections.EMPTY_LIST;
         }
+    }
+
+    @NotNull
+    public Config setHeader(@NotNull String... description) {
+        if (description.length == 0) {
+            headerComment = null;
+        } else {
+            headerComment = new Comment(description);
+        }
+        return this;
+    }
+
+    @NotNull
+    public Config setHeader(@Nullable List<String> description) {
+        if (description == null || description.isEmpty()) {
+            headerComment = null;
+        } else {
+            headerComment = new Comment(description);
+        }
+        return this;
     }
 
     public Config clearConfig(boolean clearDefaults) {
@@ -382,7 +392,7 @@ public class Config extends ConfigSection {
             try (BufferedInputStream stream = new BufferedInputStream(new FileInputStream(file))) {
                 Charset charset = TextUtils.detectCharset(stream, StandardCharsets.UTF_8);
                 // upgrade charset if file was saved in a more complex format
-                if(charset == StandardCharsets.UTF_16BE || charset == StandardCharsets.UTF_16LE) {
+                if (charset == StandardCharsets.UTF_16BE || charset == StandardCharsets.UTF_16LE) {
                     defaultCharset = StandardCharsets.UTF_16;
                 }
                 this.load(new InputStreamReader(stream, charset));
@@ -397,12 +407,12 @@ public class Config extends ConfigSection {
 
     public void load(@NotNull Reader reader) throws IOException, InvalidConfigurationException {
         StringBuilder builder = new StringBuilder();
-        
+
         try (BufferedReader input = reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader)) {
             String line;
             boolean firstLine = true;
             while ((line = input.readLine()) != null) {
-                if(firstLine) {
+                if (firstLine) {
                     line = line.replaceAll("[\uFEFF\uFFFE\u200B]", ""); // clear BOM markers
                     firstLine = false;
                 }
@@ -422,7 +432,7 @@ public class Config extends ConfigSection {
             throw new InvalidConfigurationException("Top level is not a Map.");
         }
         if (input != null) {
-            if(loadComments) {
+            if (loadComments) {
                 this.parseComments(contents, input);
             }
             this.convertMapsToSections(input, this);
@@ -512,8 +522,8 @@ public class Config extends ConfigSection {
     public void deleteNonDefaultSettings() {
         // Delete old config values (thread-safe)
         List<String> defaultKeys = Arrays.asList(defaults.keySet().toArray(new String[0]));
-        for(String key : values.keySet().toArray(new String[0])) {
-            if(!defaultKeys.contains(key)) {
+        for (String key : values.keySet().toArray(new String[0])) {
+            if (!defaultKeys.contains(key)) {
                 values.remove(key);
             }
         }
@@ -539,7 +549,7 @@ public class Config extends ConfigSection {
         if (changed || hasNewDefaults()) {
             saved = save();
         }
-        if(saveTask != null) {
+        if (saveTask != null) {
             //Close Threads
             saveTask.cancel();
             autosaveTimer.cancel();
@@ -558,7 +568,7 @@ public class Config extends ConfigSection {
     }
 
     public boolean save() {
-        if(saveTask != null) {
+        if (saveTask != null) {
             //Close Threads
             saveTask.cancel();
             autosaveTimer.cancel();
@@ -617,8 +627,6 @@ public class Config extends ConfigSection {
         }
         return "";
     }
-
-    protected final Pattern yamlNode = Pattern.compile("^( *)([^:\\{\\}\\[\\],&\\*#\\?\\|\\-<>=!%@`]+):(.*)$");
 
     protected void writeComments(String data, Writer out) throws IOException {
         // line-by-line apply line spacing formatting and comments per-node
@@ -696,16 +704,6 @@ public class Config extends ConfigSection {
             out.write(line);
             out.write("\n");
         }
-    }
-
-    protected static int getOffset(String s) {
-        char[] chars = s.toCharArray();
-        for (int i = 0; i < chars.length; ++i) {
-            if (chars[i] != ' ') {
-                return i;
-            }
-        }
-        return -1;
     }
 
     class SaveTask extends TimerTask {
