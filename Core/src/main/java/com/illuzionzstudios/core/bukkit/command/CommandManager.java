@@ -48,34 +48,6 @@ public class CommandManager implements BukkitController, Listener {
         return INSTANCE;
     }
 
-    private static int getSimilarityScore(String s1, String s2) {
-        s1 = s1.toLowerCase();
-        s2 = s2.toLowerCase();
-
-        int[] similar = new int[s2.length() + 1];
-        for (int i = 0; i <= s1.length(); i++) {
-            int lastValue = i;
-            for (int j = 0; j <= s2.length(); j++) {
-                if (i == 0) {
-                    similar[j] = j;
-                } else {
-                    if (j > 0) {
-                        int newValue = similar[j - 1];
-                        if (s1.charAt(i - 1) != s2.charAt(j - 1)) {
-                            newValue = Math.min(Math.min(newValue, lastValue), similar[j]) + 1;
-                        }
-                        similar[j - 1] = lastValue;
-                        lastValue = newValue;
-                    }
-                }
-            }
-            if (i > 0) {
-                similar[s2.length()] = lastValue;
-            }
-        }
-        return similar[s2.length()];
-    }
-
     @Override
     public void initialize(IlluzionzPlugin plugin) {
         Bukkit.getPluginManager().registerEvents(this, plugin);

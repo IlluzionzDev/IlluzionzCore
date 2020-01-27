@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -41,16 +42,22 @@ public abstract class BaseCommand extends Command {
      * Only set for console command
      */
     protected CommandSender commandSender;
+
     /**
      * Minimum required arguments
      */
     protected int minArgs;
-    protected String notEnoughArgsMsg = "&cNot enough arguments";
 
     /**
      * Arguments for the command
      */
     private List<String> args = new ArrayList<>();
+
+    /**
+     * List of subcommands for this command
+     * Blank if there are none
+     */
+    private HashSet<SubCommand> subCommands = new HashSet<>();
 
     public BaseCommand(String name, String... aliases) {
         super(name, "", "", Arrays.asList(aliases));
@@ -69,6 +76,15 @@ public abstract class BaseCommand extends Command {
 
     public abstract boolean isPublic();
 
+    /**
+     * Register a new sub command to the command
+     *
+     * @param command The sub command to add
+     */
+    public void addSubCommand(SubCommand command) {
+        this.subCommands.add(command);
+    }
+
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] args) {
         if (!this.isConsoleAllowed() && commandSender instanceof ConsoleCommandSender) {
@@ -79,7 +95,7 @@ public abstract class BaseCommand extends Command {
         this.args = Arrays.asList(args);
 
         if (this.args.size() < minArgs) {
-            new Message(notEnoughArgsMsg).sendMessage(commandSender);
+            new Message(getUsage()).sendMessage(commandSender);
             return true;
         }
 
@@ -93,7 +109,24 @@ public abstract class BaseCommand extends Command {
                 }
             }
 
-            ((PlayerCommand) this).onCommand(s, args);
+            // Process sub commands
+            SubCommand subCommand = findSubCommand(args[0]);
+
+            if (subCommand != null) {
+                String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
+                subCommand.player = (Player) commandSender;
+
+                if (subCommand.requiredPermission != null) {
+                    if (!player.hasPermission(subCommand.requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
+                        IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
+                        return true;
+                    }
+                }
+
+                subCommand.onCommand(args[0], newArgs);
+            } else {
+                ((PlayerCommand) this).onCommand(s, args);
+            }
         } else if (this instanceof GlobalCommand) {
             this.commandSender = commandSender;
 
@@ -106,7 +139,24 @@ public abstract class BaseCommand extends Command {
                 }
             }
 
-            ((GlobalCommand) this).onCommand(s, args);
+            // Process sub commands
+            SubCommand subCommand = findSubCommand(args[0]);
+
+            if (subCommand != null) {
+                String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
+                subCommand.commandSender = commandSender;
+
+                if (subCommand.requiredPermission != null) {
+                    if (!player.hasPermission(subCommand.requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
+                        IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
+                        return true;
+                    }
+                }
+
+                subCommand.onCommand(args[0], newArgs);
+            } else {
+                ((GlobalCommand) this).onCommand(s, args);
+            }
         }
 
         return true;
@@ -260,6 +310,24 @@ public abstract class BaseCommand extends Command {
 
     public Player argAsPlayer(int idx) {
         return this.argAsPlayer(idx, null);
+    }
+
+    /**
+     * Find sub command from string
+     *
+     * @param name The name or alias of command
+     */
+    public SubCommand findSubCommand(String name) {
+
+        // Return null if there are no sub commands
+        if (this.subCommands == null || this.subCommands.isEmpty()) return null;
+
+        for (SubCommand cmd : this.subCommands) {
+            // Check if it equals name or alias
+            if (cmd.name.equalsIgnoreCase(name) || cmd.aliases.contains(name.toLowerCase())) return cmd;
+        }
+
+        return null;
     }
 
     /**
