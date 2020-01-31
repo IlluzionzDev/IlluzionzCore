@@ -1,6 +1,7 @@
 package com.illuzionzstudios.core.util;
 
 import com.illuzionzstudios.core.IlluzionzCore;
+import com.illuzionzstudios.core.scheduler.MinecraftScheduler;
 
 /**
  * Copyright © 2020 Property of Illuzionz Studios, LLC
