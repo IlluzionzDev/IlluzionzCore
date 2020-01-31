@@ -283,6 +283,13 @@ public abstract class MinecraftScheduler {
     public abstract <T> void desynchronize(Callable<T> callable, Consumer<Future<T>> consumer);
 
     /**
+     * Cancel a running task with certain id
+     *
+     * @param id The id of the task to cancel
+     */
+    public abstract void stopTask(int id);
+
+    /**
      * Cached Synchronization Element
      * This contains the method/field data that will be used
      */

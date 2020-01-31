@@ -45,6 +45,11 @@ public class BukkitScheduler extends MinecraftScheduler {
     }
 
     @Override
+    public void stopTask(int id) {
+        plugin.getServer().getScheduler().cancelTask(id);
+    }
+
+    @Override
     public void validateMainThread() {
         if (!Bukkit.isPrimaryThread()) {
             throw new RuntimeException("This method must be called on main server thread");
