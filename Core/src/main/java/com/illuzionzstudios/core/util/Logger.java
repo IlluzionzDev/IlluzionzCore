@@ -38,7 +38,20 @@ public class Logger {
     }
 
     private static void log(Object message, Object... parameters) {
-        IlluzionzCore.LOGGER.info(String.format(message.toString(), parameters));
+        // This will indicate this is not being ran on main thread //
+        boolean asyncTag = false;
+
+        MinecraftScheduler scheduler = MinecraftScheduler.get();
+
+        if (scheduler != null) {
+            try {
+                scheduler.validateMainThread();
+            } catch (Exception expection) {
+                asyncTag = true;
+            }
+        }
+
+        IlluzionzCore.LOGGER.info((asyncTag ? "[ASYNC] " : "") + String.format(message.toString(), parameters));
     }
 
 }
