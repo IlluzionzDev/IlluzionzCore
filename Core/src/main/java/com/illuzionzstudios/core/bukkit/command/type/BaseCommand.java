@@ -183,9 +183,10 @@ public abstract class BaseCommand extends Command {
      * @param permission Permission for the sub
      * @param function   Function as lambda to execute
      */
+    @Deprecated
     public void sub(String subName, IPermission permission, SubAction function) {
         if (sub(subName)) {
-            if (!player.hasPermission(permission.getPermissionNode()) && !commandSender.isOp()) {
+            if (!commandSender.hasPermission(permission.getPermissionNode()) && !commandSender.isOp()) {
                 IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
                 return;
             }
@@ -199,6 +200,7 @@ public abstract class BaseCommand extends Command {
      * @param subName  Name of subcommand
      * @param function Function as lambda to execute
      */
+    @Deprecated
     public void sub(String subName, SubAction function) {
         if (sub(subName)) {
             function.execute(player);
@@ -333,6 +335,7 @@ public abstract class BaseCommand extends Command {
     /**
      * Action for subcommand
      */
+    @Deprecated
     public interface SubAction<P extends Player> {
         void execute(P player);
     }
