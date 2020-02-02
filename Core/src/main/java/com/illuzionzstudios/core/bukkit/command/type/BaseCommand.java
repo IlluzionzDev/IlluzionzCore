@@ -115,9 +115,10 @@ public abstract class BaseCommand extends Command {
             if (subCommand != null) {
                 String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
                 subCommand.player = (Player) commandSender;
+                this.commandSender = commandSender;
 
                 if (subCommand.requiredPermission != null) {
-                    if (!player.hasPermission(subCommand.requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
+                    if (!commandSender.hasPermission(subCommand.requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
                         IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
                         return true;
                     }
@@ -147,7 +148,7 @@ public abstract class BaseCommand extends Command {
                 subCommand.commandSender = commandSender;
 
                 if (subCommand.requiredPermission != null) {
-                    if (!player.hasPermission(subCommand.requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
+                    if (!commandSender.hasPermission(subCommand.requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
                         IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
                         return true;
                     }
@@ -326,7 +327,7 @@ public abstract class BaseCommand extends Command {
 
         for (SubCommand cmd : this.subCommands) {
             // Check if it equals name or alias
-            if (cmd.name.equalsIgnoreCase(name) || cmd.aliases.contains(name.toLowerCase())) return cmd;
+            if (cmd.getName().equalsIgnoreCase(name) || cmd.getAliases().contains(name.toLowerCase())) return cmd;
         }
 
         return null;

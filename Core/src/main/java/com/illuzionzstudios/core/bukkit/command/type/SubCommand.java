@@ -21,36 +21,10 @@ import java.util.List;
 /**
  * Sub command to be used
  */
-public abstract class SubCommand {
-
-    /**
-     * Name of the sub command
-     */
-    public String name;
-
-    /**
-     * Alternatives to use this sub command
-     */
-    public List<String> aliases = new ArrayList<>();
-
-    /**
-     * Required/Minimum permission to use sub command
-     */
-    protected IPermission requiredPermission;
-
-    /**
-     * Only set for console command
-     */
-    protected CommandSender commandSender;
-
-    /**
-     * Only set for player sender
-     */
-    protected Player player;
+public abstract class SubCommand extends BaseCommand {
 
     public SubCommand(String name, String... aliases) {
-        this.name = name;
-        this.aliases = Arrays.asList(aliases);
+        super(name, aliases);
     }
 
     /**
