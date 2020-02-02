@@ -115,6 +115,7 @@ public abstract class BaseCommand extends Command {
             if (subCommand != null) {
                 String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
                 subCommand.player = (Player) commandSender;
+                subCommand.commandSender = commandSender;
                 this.commandSender = commandSender;
 
                 if (subCommand.requiredPermission != null) {
