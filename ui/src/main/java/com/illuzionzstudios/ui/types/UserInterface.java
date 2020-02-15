@@ -117,7 +117,7 @@ public abstract class UserInterface implements IUserInterface {
             openInventory(player);
         } catch (Exception e) {
             e.printStackTrace();
-            new Message("&cCould not open interace").sendMessage(player);
+            new Message("&cCould not open interface").sendMessage(player);
             InterfaceController.INSTANCE.getActiveInterfaces().remove(this);
             onClose();
             player.closeInventory();

@@ -127,6 +127,8 @@ public abstract class BaseCommand extends Command {
                     }
 
                     subCommand.onCommand(args[0], newArgs);
+                } else {
+                    ((PlayerCommand) this).onCommand(s, args);
                 }
             } else {
                 ((PlayerCommand) this).onCommand(s, args);
@@ -161,6 +163,8 @@ public abstract class BaseCommand extends Command {
                     }
 
                     subCommand.onCommand(args[0], newArgs);
+                } else {
+                    ((GlobalCommand) this).onCommand(s, args);
                 }
             } else {
                 ((GlobalCommand) this).onCommand(s, args);
