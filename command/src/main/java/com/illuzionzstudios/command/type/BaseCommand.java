@@ -109,7 +109,7 @@ public abstract class BaseCommand extends Command {
                 }
             }
 
-            if (args[0] != null) {
+            if (args.length >= 1) {
                 // Process sub commands
                 SubCommand subCommand = findSubCommand(args[0]);
 
@@ -143,7 +143,7 @@ public abstract class BaseCommand extends Command {
                 }
             }
 
-            if (args[0] != null) {
+            if (args.length >= 1) {
                 // Process sub commands
                 SubCommand subCommand = findSubCommand(args[0]);
 
