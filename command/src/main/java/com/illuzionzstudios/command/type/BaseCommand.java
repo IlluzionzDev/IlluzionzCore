@@ -109,23 +109,25 @@ public abstract class BaseCommand extends Command {
                 }
             }
 
-            // Process sub commands
-            SubCommand subCommand = findSubCommand(args[0]);
+            if (args[0] != null) {
+                // Process sub commands
+                SubCommand subCommand = findSubCommand(args[0]);
 
-            if (subCommand != null) {
-                String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
-                subCommand.player = (Player) commandSender;
-                subCommand.commandSender = commandSender;
-                this.commandSender = commandSender;
+                if (subCommand != null) {
+                    String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
+                    subCommand.player = (Player) commandSender;
+                    subCommand.commandSender = commandSender;
+                    this.commandSender = commandSender;
 
-                if (subCommand.requiredPermission != null) {
-                    if (!commandSender.hasPermission(subCommand.requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
-                        IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
-                        return true;
+                    if (subCommand.requiredPermission != null) {
+                        if (!commandSender.hasPermission(subCommand.requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
+                            IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
+                            return true;
+                        }
                     }
-                }
 
-                subCommand.onCommand(args[0], newArgs);
+                    subCommand.onCommand(args[0], newArgs);
+                }
             } else {
                 ((PlayerCommand) this).onCommand(s, args);
             }
@@ -141,21 +143,25 @@ public abstract class BaseCommand extends Command {
                 }
             }
 
-            // Process sub commands
-            SubCommand subCommand = findSubCommand(args[0]);
+            if (args[0] != null) {
+                // Process sub commands
+                SubCommand subCommand = findSubCommand(args[0]);
 
-            if (subCommand != null) {
-                String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
-                subCommand.commandSender = commandSender;
+                if (subCommand != null) {
+                    String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
+                    subCommand.player = (Player) commandSender;
+                    subCommand.commandSender = commandSender;
+                    this.commandSender = commandSender;
 
-                if (subCommand.requiredPermission != null) {
-                    if (!commandSender.hasPermission(subCommand.requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
-                        IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
-                        return true;
+                    if (subCommand.requiredPermission != null) {
+                        if (!commandSender.hasPermission(subCommand.requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
+                            IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
+                            return true;
+                        }
                     }
-                }
 
-                subCommand.onCommand(args[0], newArgs);
+                    subCommand.onCommand(args[0], newArgs);
+                }
             } else {
                 ((GlobalCommand) this).onCommand(s, args);
             }
