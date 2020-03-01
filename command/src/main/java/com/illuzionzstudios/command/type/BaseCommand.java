@@ -115,7 +115,9 @@ public abstract class BaseCommand extends Command {
 
                 if (subCommand != null) {
                     String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
-                    subCommand.player = (Player) commandSender;
+                    if (!(commandSender instanceof ConsoleCommandSender)) {
+                        subCommand.player = (Player) commandSender;
+                    }
                     subCommand.commandSender = commandSender;
                     this.commandSender = commandSender;
 
@@ -151,7 +153,10 @@ public abstract class BaseCommand extends Command {
 
                 if (subCommand != null) {
                     String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
-                    subCommand.player = (Player) commandSender;
+                    if (!(commandSender instanceof ConsoleCommandSender)) {
+                        subCommand.player = (Player) commandSender;
+                    }
+
                     subCommand.commandSender = commandSender;
                     this.commandSender = commandSender;
 
