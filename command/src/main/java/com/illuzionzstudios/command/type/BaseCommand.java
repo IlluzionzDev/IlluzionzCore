@@ -138,6 +138,11 @@ public abstract class BaseCommand extends Command {
         } else if (this instanceof GlobalCommand) {
             this.commandSender = commandSender;
 
+            // Is player
+            if (!(commandSender instanceof ConsoleCommandSender)) {
+                this.player = (Player) commandSender;
+            }
+
             if (commandSender instanceof Player && !commandSender.isOp()) {
                 if (requiredPermission != null) {
                     if (!commandSender.hasPermission(requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
