@@ -35,7 +35,7 @@ public interface InstancedEntity extends Tickable, Destructible {
     }
 
     /**
-     * Kick player if instance couldn't be destroyed
+     * Kick com.illuzionzstudios.data.player if instance couldn't be destroyed
      *
      * @param kickMessage The error message
      */

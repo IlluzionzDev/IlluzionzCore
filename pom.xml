@@ -17,6 +17,7 @@
         <module>chance</module>
         <module>compatibility</module>
         <module>config</module>
+        <module>data</module>
     </modules>
 
     <distributionManagement>
@@ -25,7 +26,7 @@
             <id>nexus</id>
             <name>Illuzionz Nexus</name>
 <!--            <url>http://118.82.196.98:8081/repository/maven-releases/</url> For Jenkins-->
-            <url>http://192.168.20.13:8081/repository/maven-releases/</url> <!-- Local URL -->
+            <url>http://192.168.20.11:8081/repository/maven-releases/</url> <!-- Local URL -->
         </repository>
     </distributionManagement>
 

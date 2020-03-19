@@ -11,7 +11,7 @@ package com.illuzionzstudios.command.type;
  */
 
 /**
- * Command can be used by Console AND the player
+ * Command can be used by Console AND the com.illuzionzstudios.data.player
  */
 public abstract class GlobalCommand extends BaseCommand {
 

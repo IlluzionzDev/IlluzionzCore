@@ -50,4 +50,11 @@ public class LootTable<T> {
         return lootTable.get(lootTable.size() - 1).getKey();
     }
 
+    /**
+     * Clears all current loot in the table
+     */
+    public void clear() {
+        this.lootTable.clear();
+    }
+
 }

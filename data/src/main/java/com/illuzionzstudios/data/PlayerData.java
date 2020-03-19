@@ -1,8 +1,4 @@
-package com.illuzionzstudios.core.bukkit.controller;
-
-import org.bukkit.plugin.Plugin;
-
-/**
+package com.illuzionzstudios.data; /**
  * Copyright © 2020 Property of Illuzionz Studios, LLC
  * All rights reserved. No part of this publication may be reproduced, distributed, or
  * transmitted in any form or by any means, including photocopying, recording, or other
@@ -12,17 +8,16 @@ import org.bukkit.plugin.Plugin;
  * this statement.
  */
 
-public interface BukkitController<P extends Plugin> {
+import com.illuzionzstudios.data.player.AbstractPlayer;
+
+/**
+ * Basis of com.illuzionzstudios.data.player data
+ */
+public interface PlayerData<P extends AbstractPlayer> {
 
     /**
-     * Initialize stage
+     * Gets the com.illuzionzstudios.data.player associated with the data
      */
-    void initialize(P plugin);
-
-
-    /**
-     * Stop any invocation
-     */
-    void stop(P plugin);
+    P getPlayer();
 
 }

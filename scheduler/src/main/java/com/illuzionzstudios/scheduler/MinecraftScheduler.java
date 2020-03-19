@@ -183,13 +183,13 @@ public abstract class MinecraftScheduler {
                 }
 
                 try {
-                    instance.informError("Error occured while ticking player");
+                    instance.informError("Error occured while ticking com.illuzionzstudios.data.player");
                 } finally {
                     try {
                         instance.destroy();
                     } catch (Exception anotherException) {
                         try {
-                            instance.kickPlayer("Error occured while ticking player");
+                            instance.kickPlayer("Error occured while ticking com.illuzionzstudios.data.player");
                         } finally {
                             anotherException.printStackTrace();
                         }

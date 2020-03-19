@@ -958,18 +958,18 @@ public enum CompatibleSound {
     }
 
     /**
-     * Send a sound to a specific player
+     * Send a sound to a specific com.illuzionzstudios.data.player
      *
-     * @param sendTo player to send the sound to
+     * @param sendTo com.illuzionzstudios.data.player to send the sound to
      */
     public void play(Player sendTo) {
         sendTo.playSound(sendTo.getLocation(), getSound(), 1F, 1F);
     }
 
     /**
-     * Send a sound to a specific player
+     * Send a sound to a specific com.illuzionzstudios.data.player
      *
-     * @param sendTo player to send the sound to
+     * @param sendTo com.illuzionzstudios.data.player to send the sound to
      * @param volume the volume of the sound
      * @param pitch  the pitch of the sound
      */
@@ -978,9 +978,9 @@ public enum CompatibleSound {
     }
 
     /**
-     * Send a sound to a specific player
+     * Send a sound to a specific com.illuzionzstudios.data.player
      *
-     * @param sendTo   player to send the sound to
+     * @param sendTo   com.illuzionzstudios.data.player to send the sound to
      * @param location where the sound should come from
      * @param volume   the volume of the sound
      * @param pitch    the pitch of the sound
@@ -1002,9 +1002,9 @@ public enum CompatibleSound {
     }
 
     /**
-     * Stop a currently active sound from playing for a player
+     * Stop a currently active sound from playing for a com.illuzionzstudios.data.player
      *
-     * @param sendTo player to stop the sound for
+     * @param sendTo com.illuzionzstudios.data.player to stop the sound for
      */
     public void stop(Player sendTo) {
         if (ServerVersion.isServerVersionAtLeast(ServerVersion.V1_10)) {

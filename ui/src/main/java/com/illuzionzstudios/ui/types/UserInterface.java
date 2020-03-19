@@ -29,7 +29,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 
 /*
- * A custom inventory which a player can interact with
+ * A custom inventory which a com.illuzionzstudios.data.player can interact with
  */
 @Getter
 @NoArgsConstructor
@@ -41,7 +41,7 @@ public abstract class UserInterface implements IUserInterface {
     protected Inventory inventory;
 
     /**
-     * The player bukkit player
+     * The com.illuzionzstudios.data.player bukkit com.illuzionzstudios.data.player
      */
     protected Player player;
     /**
@@ -58,7 +58,7 @@ public abstract class UserInterface implements IUserInterface {
     @Setter
     private boolean clickable = true;
     /**
-     * Listener for when player clicks there own inventory
+     * Listener for when com.illuzionzstudios.data.player clicks there own inventory
      * if null no listeners will be called
      */
     @Setter

@@ -35,7 +35,7 @@ import java.util.Set;
  */
 
 /*
- * Controls all interactive actions by player in interfaces
+ * Controls all interactive actions by com.illuzionzstudios.data.player in interfaces
  */
 public class InterfaceController<P extends IlluzionzPlugin> implements Listener, BukkitController {
 
@@ -83,7 +83,7 @@ public class InterfaceController<P extends IlluzionzPlugin> implements Listener,
                         }
                     }
 
-                    //They clicked in the player inventory
+                    //They clicked in the com.illuzionzstudios.data.player inventory
                     if (event.getRawSlot() >= ui.getInventory().getSize()) {
                         if (ui.getPlayerInventoryListener() != null) {
                             safelyClick(ui.getPlayerInventoryListener(), player, event);

@@ -59,10 +59,10 @@ public class Message {
     }
 
     /**
-     * Format and send the held message to a player.
+     * Format and send the held message to a com.illuzionzstudios.data.player.
      * Detect if string is split and send multiple lines
      *
-     * @param player player to send the message to
+     * @param player com.illuzionzstudios.data.player to send the message to
      */
     public void sendMessage(Player player) {
         // Check for split lore
@@ -72,16 +72,16 @@ public class Message {
 
     /**
      * Format and send the held message with the
-     * appended plugin prefix to a player
+     * appended plugin prefix to a com.illuzionzstudios.data.player
      *
-     * @param player player to send the message to
+     * @param player com.illuzionzstudios.data.player to send the message to
      */
     public void sendPrefixedMessage(Player player) {
         player.sendMessage(this.getPrefixedMessage());
     }
 
     /**
-     * Format and send the held message to a player
+     * Format and send the held message to a com.illuzionzstudios.data.player
      *
      * @param sender command sender to send the message to
      */
@@ -91,7 +91,7 @@ public class Message {
     }
 
     /**
-     * Format and send the held message to a player as a title message
+     * Format and send the held message to a com.illuzionzstudios.data.player as a title message
      *
      * @param sender command sender to send the message to
      */
@@ -108,7 +108,7 @@ public class Message {
     }
 
     /**
-     * Format and send the held message to a player as a title message
+     * Format and send the held message to a com.illuzionzstudios.data.player as a title message
      *
      * @param sender   command sender to send the message to
      * @param subtitle Subtitle to send
@@ -126,7 +126,7 @@ public class Message {
     }
 
     /**
-     * Format and send the held message to a player as an actionbar message
+     * Format and send the held message to a com.illuzionzstudios.data.player as an actionbar message
      *
      * @param sender command sender to send the message to
      */

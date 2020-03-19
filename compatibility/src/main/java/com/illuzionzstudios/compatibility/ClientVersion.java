@@ -23,12 +23,12 @@ public class ClientVersion {
     static HashMap<UUID, ServerVersion> players = new HashMap();
 
     /**
-     * Check to see what client version this player is connected to the server
-     * with. Note that if a player is connecting with a newer client than the server,
+     * Check to see what client version this com.illuzionzstudios.data.player is connected to the server
+     * with. Note that if a com.illuzionzstudios.data.player is connecting with a newer client than the server,
      * this value will simply be the server version.
      *
      * @param player Player to check
-     * @return ServerVersion that matches this player's Minecraft version
+     * @return ServerVersion that matches this com.illuzionzstudios.data.player's Minecraft version
      */
     public static ServerVersion getClientVersion(Player player) {
         if (player == null || !players.containsKey(player.getUniqueId())) {

@@ -29,7 +29,7 @@ import java.util.List;
 public abstract class BaseCommand extends Command {
 
     /**
-     * Only set for player command
+     * Only set for com.illuzionzstudios.data.player command
      */
     protected Player player;
 
@@ -138,7 +138,7 @@ public abstract class BaseCommand extends Command {
         } else if (this instanceof GlobalCommand) {
             this.commandSender = commandSender;
 
-            // Is player
+            // Is com.illuzionzstudios.data.player
             if (!(commandSender instanceof ConsoleCommandSender)) {
                 this.player = (Player) commandSender;
             }
@@ -318,7 +318,7 @@ public abstract class BaseCommand extends Command {
         }
 
         if (msg && ret == null) {
-            player.sendMessage(String.format(Locale.color("&cCouldn't find player %s"), name));
+            player.sendMessage(String.format(Locale.color("&cCouldn't find com.illuzionzstudios.data.player %s"), name));
         }
 
         return ret;
