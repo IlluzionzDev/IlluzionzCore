@@ -1,4 +1,6 @@
-package com.illuzionzstudios.data; /**
+package com.illuzionzstudios.data;
+
+/**
  * Copyright © 2020 Property of Illuzionz Studios, LLC
  * All rights reserved. No part of this publication may be reproduced, distributed, or
  * transmitted in any form or by any means, including photocopying, recording, or other
@@ -12,7 +14,7 @@ import com.illuzionzstudios.data.player.AbstractPlayerData;
 import com.illuzionzstudios.data.controller.PlayerDataController;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.craftbukkit.libs.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Iterator;

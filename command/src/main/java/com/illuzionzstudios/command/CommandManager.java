@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
 
 import java.lang.reflect.Field;
@@ -30,7 +31,7 @@ import java.util.HashMap;
 /**
  * Manage all commands
  */
-public class CommandManager implements BukkitController, Listener {
+public class CommandManager implements BukkitController<Plugin>, Listener {
 
     private static CommandManager INSTANCE = null;
 
@@ -40,7 +41,7 @@ public class CommandManager implements BukkitController, Listener {
     protected ArrayList<PlayerCommand> pCommands = new ArrayList<PlayerCommand>();
     protected ArrayList<GlobalCommand> gCommands = new ArrayList<GlobalCommand>();
 
-    public CommandManager(IlluzionzPlugin plugin) {
+    public CommandManager(Plugin plugin) {
         INSTANCE = this;
     }
 
@@ -49,12 +50,12 @@ public class CommandManager implements BukkitController, Listener {
     }
 
     @Override
-    public void initialize(IlluzionzPlugin plugin) {
+    public void initialize(Plugin plugin) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     @Override
-    public void stop(IlluzionzPlugin plugin) {
+    public void stop(Plugin plugin) {
 
     }
 

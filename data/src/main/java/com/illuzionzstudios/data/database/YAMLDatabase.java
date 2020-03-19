@@ -28,9 +28,18 @@ public class YAMLDatabase implements Database {
 
         HashMap<String, Object> cache = new HashMap<>();
 
-        dataConfig.getDefaultSection().getKeys(true);
+        // Get keys and load if found value
+        if (dataConfig.getDefaultSection() == null) return cache;
 
-        return null;
+        dataConfig.getDefaultSection().getKeys(true).forEach(path -> {
+            // Check if not null value
+            if (dataConfig.get(path) != null) {
+                // Add to cache
+                cache.put(path, dataConfig.get(path));
+            }
+        });
+
+        return cache;
     }
 
     @Override
@@ -62,6 +71,6 @@ public class YAMLDatabase implements Database {
 
     @Override
     public boolean isAlive() {
-        return false;
+        return true;
     }
 }

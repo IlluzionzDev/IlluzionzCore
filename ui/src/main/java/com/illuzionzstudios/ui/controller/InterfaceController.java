@@ -19,6 +19,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -52,13 +53,13 @@ public class InterfaceController<P extends IlluzionzPlugin> implements Listener,
     }
 
     @Override
-    public void initialize(IlluzionzPlugin plugin) {
+    public void initialize(Plugin plugin) {
         Bukkit.getPluginManager().registerEvents(this, plugin);
         MinecraftScheduler.get().registerSynchronizationService(this);
     }
 
     @Override
-    public void stop(IlluzionzPlugin plugin) {
+    public void stop(Plugin plugin) {
 
     }
 
