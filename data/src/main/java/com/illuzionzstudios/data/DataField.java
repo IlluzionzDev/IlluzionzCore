@@ -10,6 +10,7 @@ package com.illuzionzstudios.data;
  * this statement.
  */
 
+import com.illuzionzstudios.core.util.Logger;
 import com.illuzionzstudios.data.player.AbstractPlayerData;
 import com.illuzionzstudios.data.controller.PlayerDataController;
 import lombok.Getter;
@@ -20,7 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import static org.bukkit.craftbukkit.libs.org.apache.commons.lang3.StringUtils.contains;
+import static org.apache.commons.lang3.StringUtils.contains;
 
 /**
  * A field in a players data
@@ -105,7 +106,7 @@ public class DataField<T> {
         // Current set value if any
         T current = (T) controller.getDatabase().getCachedValue(playerData.getPlayer(), getQueryingField());
 
-        // Clear any existing modifications queries if new value is null //
+        // Clear any existing modifications queries if new value is null
         if (value == null) {
             playerData.getPlayer().getModifiedKeys().removeIf(s -> s.contains(getQueryingField()));
         }

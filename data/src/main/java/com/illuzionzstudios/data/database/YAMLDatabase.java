@@ -12,6 +12,7 @@ package com.illuzionzstudios.data.database;
 
 import com.illuzionzstudios.config.Config;
 import com.illuzionzstudios.core.plugin.IlluzionzPlugin;
+import com.illuzionzstudios.core.util.Logger;
 import com.illuzionzstudios.data.player.AbstractPlayer;
 
 import java.util.HashMap;
@@ -24,16 +25,17 @@ public class YAMLDatabase implements Database {
     @Override
     public HashMap<String, Object> getFields(AbstractPlayer player) {
         // Local data file
-        Config dataConfig = new Config(IlluzionzPlugin.getInstance(), "data", player.getUUID() + ".yml");
+        Config dataConfig = new Config(IlluzionzPlugin.getInstance(), "/data", player.getUUID() + ".yml");
+        dataConfig.load();
 
         HashMap<String, Object> cache = new HashMap<>();
 
         // Get keys and load if found value
-        if (dataConfig.getDefaultSection() == null) return cache;
-
         dataConfig.getDefaultSection().getKeys(true).forEach(path -> {
+            Logger.info(path);
             // Check if not null value
             if (dataConfig.get(path) != null) {
+                Logger.info("Inserted " + path);
                 // Add to cache
                 cache.put(path, dataConfig.get(path));
             }
@@ -45,7 +47,7 @@ public class YAMLDatabase implements Database {
     @Override
     public Object getFieldValue(AbstractPlayer player, String queryingField) {
         // Local data file
-        Config dataConfig = new Config(IlluzionzPlugin.getInstance(), "data", player.getUUID() + ".yml");
+        Config dataConfig = new Config(IlluzionzPlugin.getInstance(), "/data", player.getUUID() + ".yml");
 
         return dataConfig.get(queryingField);
     }
@@ -53,7 +55,7 @@ public class YAMLDatabase implements Database {
     @Override
     public void setFieldValue(AbstractPlayer player, String queryingField, Object value) {
         // Local data file
-        Config dataConfig = new Config(IlluzionzPlugin.getInstance(), "data", player.getUUID() + ".yml");
+        Config dataConfig = new Config(IlluzionzPlugin.getInstance(), "/data", player.getUUID() + ".yml");
 
         dataConfig.set(queryingField, value);
         dataConfig.saveChanges();
