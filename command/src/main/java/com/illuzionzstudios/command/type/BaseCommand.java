@@ -51,7 +51,7 @@ public abstract class BaseCommand extends Command {
     /**
      * Arguments for the command
      */
-    private List<String> args = new ArrayList<>();
+    protected List<String> args = new ArrayList<>();
 
     /**
      * List of subcommands for this command
@@ -113,6 +113,8 @@ public abstract class BaseCommand extends Command {
 
                 if (subCommand != null) {
                     String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
+                    // Update local args
+                    subCommand.args = Arrays.asList(newArgs);
                     if (!(commandSender instanceof ConsoleCommandSender)) {
                         subCommand.player = (Player) commandSender;
                     }
@@ -176,6 +178,7 @@ public abstract class BaseCommand extends Command {
 
                 if (subCommand != null) {
                     String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
+                    subCommand.args = Arrays.asList(newArgs);
                     if (!(commandSender instanceof ConsoleCommandSender)) {
                         subCommand.player = (Player) commandSender;
                     }
@@ -356,7 +359,7 @@ public abstract class BaseCommand extends Command {
         }
 
         if (msg && ret == null) {
-            player.sendMessage(String.format(Locale.color("&cCouldn't find com.illuzionzstudios.data.player %s"), name));
+            player.sendMessage(String.format(Locale.color("&cCouldn't find player %s"), name));
         }
 
         return ret;
