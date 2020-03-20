@@ -178,4 +178,14 @@ public abstract class IlluzionzPlugin extends JavaPlugin {
         Bukkit.getPluginManager().disablePlugin(this);
     }
 
+    /**
+     * Get the plugin name
+     */
+    public abstract String getPluginName();
+
+    /**
+     * Get the plugin version
+     */
+    public abstract String getPluginVersion();
+
 }

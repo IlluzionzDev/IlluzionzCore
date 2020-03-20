@@ -74,8 +74,6 @@ public abstract class BaseCommand extends Command {
      */
     public abstract boolean isConsoleAllowed();
 
-    public abstract boolean isPublic();
-
     /**
      * Register a new sub command to the command
      *
