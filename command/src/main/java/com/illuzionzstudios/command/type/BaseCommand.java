@@ -126,12 +126,32 @@ public abstract class BaseCommand extends Command {
                         }
                     }
 
-                    subCommand.onCommand(args[0], newArgs);
+                    if (newArgs.length < subCommand.minArgs) {
+                        new Message(getUsage()).sendMessage(commandSender);
+                        return true;
+                    }
+
+                    try {
+                        subCommand.onCommand(args[0], newArgs);
+                    } catch (Exception ex) {
+                        // Encounter any error so display usage
+                        new Message(getUsage()).sendMessage(commandSender);
+                    }
                 } else {
-                    ((PlayerCommand) this).onCommand(s, args);
+                    try {
+                        ((PlayerCommand) this).onCommand(s, args);
+                    } catch (Exception ex) {
+                        // Encounter any error so display usage
+                        new Message(getUsage()).sendMessage(commandSender);
+                    }
                 }
             } else {
-                ((PlayerCommand) this).onCommand(s, args);
+                try {
+                    ((PlayerCommand) this).onCommand(s, args);
+                } catch (Exception ex) {
+                    // Encounter any error so display usage
+                    new Message(getUsage()).sendMessage(commandSender);
+                }
             }
         } else if (this instanceof GlobalCommand) {
             this.commandSender = commandSender;
@@ -170,12 +190,32 @@ public abstract class BaseCommand extends Command {
                         }
                     }
 
-                    subCommand.onCommand(args[0], newArgs);
+                    if (newArgs.length < subCommand.minArgs) {
+                        new Message(getUsage()).sendMessage(commandSender);
+                        return true;
+                    }
+
+                    try {
+                        subCommand.onCommand(args[0], newArgs);
+                    } catch (Exception ex) {
+                        // Encounter any error so display usage
+                        new Message(getUsage()).sendMessage(commandSender);
+                    }
                 } else {
-                    ((GlobalCommand) this).onCommand(s, args);
+                    try {
+                        ((GlobalCommand) this).onCommand(s, args);
+                    } catch (Exception ex) {
+                        // Encounter any error so display usage
+                        new Message(getUsage()).sendMessage(commandSender);
+                    }
                 }
             } else {
-                ((GlobalCommand) this).onCommand(s, args);
+                try {
+                    ((GlobalCommand) this).onCommand(s, args);
+                } catch (Exception ex) {
+                    // Encounter any error so display usage
+                    new Message(getUsage()).sendMessage(commandSender);
+                }
             }
         }
 
