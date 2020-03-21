@@ -11,8 +11,11 @@ package com.illuzionzstudios.data.database;
  */
 
 import com.illuzionzstudios.data.player.AbstractPlayer;
+import com.illuzionzstudios.data.player.OfflinePlayer;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A database where data can be stored
@@ -65,6 +68,12 @@ public interface Database {
      * @param value The value we're setting in the database
      */
     void setFieldValue(AbstractPlayer player, String queryingField, Object value);
+
+    /**
+     * Return a list of all saved players in the database
+     * Returned as offline player as may not be online
+     */
+    List<OfflinePlayer> getSavedPlayers();
 
     /**
      * Open connection to database if necessary

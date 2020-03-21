@@ -13,9 +13,16 @@ package com.illuzionzstudios.data.database;
 import com.illuzionzstudios.config.Config;
 import com.illuzionzstudios.core.plugin.IlluzionzPlugin;
 import com.illuzionzstudios.core.util.Logger;
+import com.illuzionzstudios.data.controller.BukkitPlayerController;
 import com.illuzionzstudios.data.player.AbstractPlayer;
+import com.illuzionzstudios.data.player.OfflinePlayer;
+import org.bukkit.Bukkit;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Database stored in flat files
@@ -32,10 +39,8 @@ public class YAMLDatabase implements Database {
 
         // Get keys and load if found value
         dataConfig.getDefaultSection().getKeys(true).forEach(path -> {
-            Logger.info(path);
             // Check if not null value
             if (dataConfig.get(path) != null) {
-                Logger.info("Inserted " + path);
                 // Add to cache
                 cache.put(path, dataConfig.get(path));
             }
@@ -59,6 +64,34 @@ public class YAMLDatabase implements Database {
 
         dataConfig.set(queryingField, value);
         dataConfig.saveChanges();
+    }
+
+    @Override
+    public List<OfflinePlayer> getSavedPlayers() {
+        List<OfflinePlayer> savedPlayers = new ArrayList<>();
+        File dir = new File(IlluzionzPlugin.getInstance().getDataFolder().getPath() + File.separator + "data");
+        File[] files = dir.listFiles();
+
+        // Can't find players if can't find directory
+        if (files == null) return savedPlayers;
+
+        // Go through files
+        for (File file : files) {
+            // Get name without extension
+            String uuid = file.getName();
+            int pos = uuid.lastIndexOf(".");
+            if (pos > 0 && pos < (uuid.length() - 1)) { // If '.' is not the first or last character.
+                uuid = uuid.substring(0, pos);
+            }
+
+            // Get offline player
+            OfflinePlayer player = BukkitPlayerController.INSTANCE.getOfflinePlayer(UUID.fromString(uuid), Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName());
+
+            // Add to cache
+            savedPlayers.add(player);
+        }
+
+        return savedPlayers;
     }
 
     @Override
