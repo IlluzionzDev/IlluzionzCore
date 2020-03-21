@@ -129,7 +129,7 @@ public abstract class BaseCommand extends Command {
                     }
 
                     if (newArgs.length < subCommand.minArgs) {
-                        new Message(getUsage()).sendMessage(commandSender);
+                        new Message(subCommand.getUsage()).sendMessage(commandSender);
                         return true;
                     }
 
@@ -137,7 +137,7 @@ public abstract class BaseCommand extends Command {
                         subCommand.onCommand(args[0], newArgs);
                     } catch (Exception ex) {
                         // Encounter any error so display usage
-                        new Message(getUsage()).sendMessage(commandSender);
+                        new Message(subCommand.getUsage()).sendMessage(commandSender);
                     }
                 } else {
                     try {
@@ -194,7 +194,7 @@ public abstract class BaseCommand extends Command {
                     }
 
                     if (newArgs.length < subCommand.minArgs) {
-                        new Message(getUsage()).sendMessage(commandSender);
+                        new Message(subCommand.getUsage()).sendMessage(commandSender);
                         return true;
                     }
 
@@ -202,7 +202,7 @@ public abstract class BaseCommand extends Command {
                         subCommand.onCommand(args[0], newArgs);
                     } catch (Exception ex) {
                         // Encounter any error so display usage
-                        new Message(getUsage()).sendMessage(commandSender);
+                        new Message(subCommand.getUsage()).sendMessage(commandSender);
                     }
                 } else {
                     try {
