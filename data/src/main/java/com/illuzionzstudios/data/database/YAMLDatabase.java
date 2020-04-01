@@ -63,7 +63,7 @@ public class YAMLDatabase implements Database {
         Config dataConfig = new Config(IlluzionzPlugin.getInstance(), "/data", player.getUUID() + ".yml");
 
         dataConfig.set(queryingField, value);
-        dataConfig.saveChanges();
+        dataConfig.save();
     }
 
     @Override

@@ -197,8 +197,9 @@ public abstract class AbstractPlayer {
 
             // Set the field in the database
             PlayerDataController.get().getDatabase().setFieldValue(this, field, value);
-            resetModifiedKeys();
         });
+
+        resetModifiedKeys();
 
         return true;
     }

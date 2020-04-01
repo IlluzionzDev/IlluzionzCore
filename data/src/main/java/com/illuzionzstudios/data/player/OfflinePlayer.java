@@ -10,6 +10,7 @@ package com.illuzionzstudios.data.player;
  * this statement.
  */
 
+import com.illuzionzstudios.core.util.Logger;
 import com.illuzionzstudios.data.PlayerData;
 import com.illuzionzstudios.data.controller.PlayerDataController;
 
