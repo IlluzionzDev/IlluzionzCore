@@ -20,15 +20,15 @@ import java.util.UUID;
  */
 public class ClientVersion {
 
-    static HashMap<UUID, ServerVersion> players = new HashMap();
+    static HashMap<UUID, ServerVersion> players = new HashMap<>();
 
     /**
-     * Check to see what client version this com.illuzionzstudios.data.player is connected to the server
-     * with. Note that if a com.illuzionzstudios.data.player is connecting with a newer client than the server,
+     * Check to see what client version this player is connected to the server
+     * with. Note that if a player is connecting with a newer client than the server,
      * this value will simply be the server version.
      *
      * @param player Player to check
-     * @return ServerVersion that matches this com.illuzionzstudios.data.player's Minecraft version
+     * @return ServerVersion that matches this player's Minecraft version
      */
     public static ServerVersion getClientVersion(Player player) {
         if (player == null || !players.containsKey(player.getUniqueId())) {
@@ -37,31 +37,6 @@ public class ClientVersion {
         return players.get(player.getUniqueId());
     }
 
-    /**
-     * Do Not Use: This is handled by SongodaCore.
-     */
-//    @Deprecated
-//    public static void onLoginProtocol(Player p) {
-//        Bukkit.getScheduler().runTaskLater(SongodaCore.getHijackedPlugin(), ()-> {
-//            if(p.isOnline()) {
-//                final int version = protocolsupport.api.ProtocolSupportAPI.getProtocolVersion(p).getId();
-//                players.put(p.getUniqueId(), protocolToVersion(version));
-//            }
-//        }, 20);
-//    }
-
-    /**
-     * Do Not Use: This is handled by SongodaCore.
-     */
-//    @Deprecated
-//    public static void onLoginVia(Player p) {
-//        Bukkit.getScheduler().runTaskLater(SongodaCore.getHijackedPlugin(), ()-> {
-//            if(p.isOnline()) {
-//                final int version = us.myles.ViaVersion.api.Via.getAPI().getPlayerVersion(p.getUniqueId());
-//                players.put(p.getUniqueId(), protocolToVersion(version));
-//            }
-//        }, 20);
-//    }
     private static ServerVersion protocolToVersion(int version) {
         // https://github.com/ViaVersion/ViaVersion/blob/master/common/src/main/java/us/myles/ViaVersion/api/protocol/ProtocolVersion.java
         // https://github.com/ProtocolSupport/ProtocolSupport/blob/master/src/protocolsupport/api/ProtocolVersion.java
@@ -97,12 +72,4 @@ public class ClientVersion {
         }
         return version > 498 ? ServerVersion.getServerVersion() : ServerVersion.UNKNOWN;
     }
-
-//    /**
-//     * Do Not Use: This is handled by SongodaCore.
-//     */
-//    @Deprecated
-//    public static void onLogout(Player p) {
-//        players.remove(p.getUniqueId());
-//    }
 }
