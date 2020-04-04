@@ -20,7 +20,15 @@ import java.util.Random;
 public class LootTable<T> {
 
     private Random random = new Random();
+
+    /**
+     * Stored rewards in our table
+     */
     private List<Pair<T, Double>> lootTable = new LinkedList<>();
+
+    /**
+     * Total weight of rewards used for picking
+     */
     private double totalWeight;
 
     /**
@@ -35,12 +43,12 @@ public class LootTable<T> {
     }
 
     /**
-     * Pick random item from loottable based on weight
+     * Pick random item from loot table based on weight
      */
     public T pick() {
         double currentItemUpperBound = 0;
 
-        double nextValue = 0 + (totalWeight - 0) * random.nextDouble();
+        double nextValue = (totalWeight - 0) * random.nextDouble();
         for (Pair<T, Double> itemAndWeight : lootTable) {
             currentItemUpperBound += itemAndWeight.getValue();
             if (nextValue < currentItemUpperBound)
