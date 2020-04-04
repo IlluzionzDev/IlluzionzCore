@@ -11,7 +11,7 @@ package com.illuzionzstudios.command.type;
  */
 
 /**
- * Command used only by the com.illuzionzstudios.data.player
+ * Command used only by the player
  */
 public abstract class PlayerCommand extends BaseCommand {
 

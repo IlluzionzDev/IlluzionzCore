@@ -33,13 +33,20 @@ import java.util.HashMap;
  */
 public class CommandManager implements BukkitController<Plugin>, Listener {
 
+    /**
+     * Instance of command manager for registering commands
+     */
     private static CommandManager INSTANCE = null;
 
-    @Getter
-    protected ArrayList<String> allowed = new ArrayList<>();
+    /**
+     * Registered player commands
+     */
+    protected ArrayList<PlayerCommand> pCommands = new ArrayList<>();
 
-    protected ArrayList<PlayerCommand> pCommands = new ArrayList<PlayerCommand>();
-    protected ArrayList<GlobalCommand> gCommands = new ArrayList<GlobalCommand>();
+    /**
+     * Registered global commands
+     */
+    protected ArrayList<GlobalCommand> gCommands = new ArrayList<>();
 
     public CommandManager(Plugin plugin) {
         INSTANCE = this;
@@ -85,15 +92,13 @@ public class CommandManager implements BukkitController<Plugin>, Listener {
                 }
             }
 
-            //Register the new command & aliases
+            // Register the new command & aliases
             map.register(command.getLabel(), command);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
 
-        allowed.add(command.getName());
-        allowed.addAll(command.getAliases());
-
+        // Register our player and global commands
         if (command instanceof PlayerCommand) {
             pCommands.add((PlayerCommand) command);
         } else if (command instanceof GlobalCommand) {

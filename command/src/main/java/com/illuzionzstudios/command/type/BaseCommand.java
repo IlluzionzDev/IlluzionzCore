@@ -97,64 +97,66 @@ public abstract class BaseCommand extends Command {
             return true;
         }
 
+        if (args.length >= 1) {
+            // Process sub commands
+            SubCommand subCommand = findSubCommand(args[0]);
+
+            if (subCommand != null) {
+                String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
+
+                // Update local args
+                subCommand.args = Arrays.asList(newArgs);
+                if (!(commandSender instanceof ConsoleCommandSender)) {
+                    subCommand.player = (Player) commandSender;
+                }
+
+                subCommand.commandSender = commandSender;
+                this.commandSender = commandSender;
+
+                if (subCommand.requiredPermission != null) {
+                    if (!commandSender.hasPermission(subCommand.requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
+                        IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
+                        return true;
+                    }
+                }
+
+                if (newArgs.length < subCommand.minArgs) {
+                    new Message(subCommand.getUsage()).sendMessage(commandSender);
+                    return true;
+                }
+
+                try {
+                    subCommand.onCommand(args[0], newArgs);
+                    return true;
+                } catch (Exception ex) {
+                    // Encounter any error so display usage
+                    new Message(subCommand.getUsage()).sendMessage(commandSender);
+                    ex.printStackTrace();
+                }
+            }
+        }
+
         if (this instanceof PlayerCommand) {
             this.player = (Player) commandSender;
 
             if (requiredPermission != null) {
+
+                // Test permission
                 if (!player.hasPermission(requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
                     IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
                     return true;
                 }
-            }
 
-            if (args.length >= 1) {
-                // Process sub commands
-                SubCommand subCommand = findSubCommand(args[0]);
-
-                if (subCommand != null) {
-                    String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
-                    // Update local args
-                    subCommand.args = Arrays.asList(newArgs);
-                    if (!(commandSender instanceof ConsoleCommandSender)) {
-                        subCommand.player = (Player) commandSender;
-                    }
-                    subCommand.commandSender = commandSender;
-                    this.commandSender = commandSender;
-
-                    if (subCommand.requiredPermission != null) {
-                        if (!commandSender.hasPermission(subCommand.requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
-                            IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
-                            return true;
-                        }
-                    }
-
-                    if (newArgs.length < subCommand.minArgs) {
-                        new Message(subCommand.getUsage()).sendMessage(commandSender);
-                        return true;
-                    }
-
-                    try {
-                        subCommand.onCommand(args[0], newArgs);
-                    } catch (Exception ex) {
-                        // Encounter any error so display usage
-                        new Message(subCommand.getUsage()).sendMessage(commandSender);
-                    }
-                } else {
-                    try {
-                        ((PlayerCommand) this).onCommand(s, args);
-                    } catch (Exception ex) {
-                        // Encounter any error so display usage
-                        new Message(getUsage()).sendMessage(commandSender);
-                    }
-                }
             } else {
                 try {
                     ((PlayerCommand) this).onCommand(s, args);
                 } catch (Exception ex) {
                     // Encounter any error so display usage
                     new Message(getUsage()).sendMessage(commandSender);
+                    ex.printStackTrace();
                 }
             }
+
         } else if (this instanceof GlobalCommand) {
             this.commandSender = commandSender;
 
@@ -172,53 +174,12 @@ public abstract class BaseCommand extends Command {
                 }
             }
 
-            if (args.length >= 1) {
-                // Process sub commands
-                SubCommand subCommand = findSubCommand(args[0]);
-
-                if (subCommand != null) {
-                    String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
-                    subCommand.args = Arrays.asList(newArgs);
-                    if (!(commandSender instanceof ConsoleCommandSender)) {
-                        subCommand.player = (Player) commandSender;
-                    }
-
-                    subCommand.commandSender = commandSender;
-                    this.commandSender = commandSender;
-
-                    if (subCommand.requiredPermission != null) {
-                        if (!commandSender.hasPermission(subCommand.requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
-                            IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
-                            return true;
-                        }
-                    }
-
-                    if (newArgs.length < subCommand.minArgs) {
-                        new Message(subCommand.getUsage()).sendMessage(commandSender);
-                        return true;
-                    }
-
-                    try {
-                        subCommand.onCommand(args[0], newArgs);
-                    } catch (Exception ex) {
-                        // Encounter any error so display usage
-                        new Message(subCommand.getUsage()).sendMessage(commandSender);
-                    }
-                } else {
-                    try {
-                        ((GlobalCommand) this).onCommand(s, args);
-                    } catch (Exception ex) {
-                        // Encounter any error so display usage
-                        new Message(getUsage()).sendMessage(commandSender);
-                    }
-                }
-            } else {
-                try {
-                    ((GlobalCommand) this).onCommand(s, args);
-                } catch (Exception ex) {
-                    // Encounter any error so display usage
-                    new Message(getUsage()).sendMessage(commandSender);
-                }
+            try {
+                ((GlobalCommand) this).onCommand(s, args);
+            } catch (Exception ex) {
+                // Encounter any error so display usage
+                new Message(getUsage()).sendMessage(commandSender);
+                ex.printStackTrace();
             }
         }
 
