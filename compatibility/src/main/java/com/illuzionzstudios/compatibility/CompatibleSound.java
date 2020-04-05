@@ -25,26 +25,27 @@ public enum CompatibleSound {
     // https://www.minecraftforum.net/forums/mapping-and-modding-java-edition/mapping-and-modding-tutorials/2213619-1-8-all-playsound-sound-arguments
 
     /* 1.15 */
-    BLOCK_BEEHIVE_DRIP,
-    BLOCK_BEEHIVE_ENTER,
-    BLOCK_BEEHIVE_EXIT,
-    BLOCK_BEEHIVE_SHEAR,
-    BLOCK_BEEHIVE_WORK,
-    BLOCK_HONEY_BLOCK_BREAK,
-    BLOCK_HONEY_BLOCK_FALL,
-    BLOCK_HONEY_BLOCK_HIT,
-    BLOCK_HONEY_BLOCK_PLACE,
-    BLOCK_HONEY_BLOCK_SLIDE,
-    BLOCK_HONEY_BLOCK_STEP,
-    ENTITY_BEE_DEATH,
-    ENTITY_BEE_HURT,
-    ENTITY_BEE_LOOP,
-    ENTITY_BEE_LOOP_AGGRESSIVE,
-    ENTITY_BEE_POLLINATE,
-    ENTITY_BEE_STING,
-    ENTITY_IRON_GOLEM_DAMAGE,
-    ENTITY_IRON_GOLEM_REPAIR,
-    ITEM_HONEY_BOTTLE_DRINK,
+    // TODO: add similar sounds for older versions
+    BLOCK_BEEHIVE_DRIP(ServerVersion.V1_15, v(null, true)),
+    BLOCK_BEEHIVE_ENTER(ServerVersion.V1_15, v(null, true)),
+    BLOCK_BEEHIVE_EXIT(ServerVersion.V1_15, v(null, true)),
+    BLOCK_BEEHIVE_SHEAR(ServerVersion.V1_15, v(null, true)),
+    BLOCK_BEEHIVE_WORK(ServerVersion.V1_15, v(null, true)),
+    BLOCK_HONEY_BLOCK_BREAK(ServerVersion.V1_15, v(null, true)),
+    BLOCK_HONEY_BLOCK_FALL(ServerVersion.V1_15, v(null, true)),
+    BLOCK_HONEY_BLOCK_HIT(ServerVersion.V1_15, v(null, true)),
+    BLOCK_HONEY_BLOCK_PLACE(ServerVersion.V1_15, v(null, true)),
+    BLOCK_HONEY_BLOCK_SLIDE(ServerVersion.V1_15, v(null, true)),
+    BLOCK_HONEY_BLOCK_STEP(ServerVersion.V1_15, v(null, true)),
+    ENTITY_BEE_DEATH(ServerVersion.V1_15, v(null, true)),
+    ENTITY_BEE_HURT(ServerVersion.V1_15, v(null, true)),
+    ENTITY_BEE_LOOP(ServerVersion.V1_15, v(null, true)),
+    ENTITY_BEE_LOOP_AGGRESSIVE(ServerVersion.V1_15, v(null, true)),
+    ENTITY_BEE_POLLINATE(ServerVersion.V1_15, v(null, true)),
+    ENTITY_BEE_STING(ServerVersion.V1_15, v(null, true)),
+    ENTITY_IRON_GOLEM_DAMAGE(ServerVersion.V1_15, v(null, true)),
+    ENTITY_IRON_GOLEM_REPAIR(ServerVersion.V1_15, v(null, true)),
+    ITEM_HONEY_BOTTLE_DRINK(ServerVersion.V1_15, v(null, true)),
 
     AMBIENT_CAVE(ServerVersion.V1_9, v("AMBIENCE_CAVE")),
     AMBIENT_UNDERWATER_ENTER,
@@ -230,7 +231,7 @@ public enum CompatibleSound {
     BLOCK_WET_GRASS_HIT,
     BLOCK_WET_GRASS_PLACE,
     BLOCK_WET_GRASS_STEP,
-    BLOCK_WOODEN_BUTTON_CLICK_OFF(ServerVersion.V1_13, v(ServerVersion.V1_9, "BLOCK_WOOD_BUTTON_CLICK_ON"), v("WOOD_CLICK")),
+    BLOCK_WOODEN_BUTTON_CLICK_OFF(ServerVersion.V1_13, v(ServerVersion.V1_9, "BLOCK_WOOD_BUTTON_CLICK_ON"),  v("WOOD_CLICK")),
     BLOCK_WOODEN_BUTTON_CLICK_ON(ServerVersion.V1_13, v(ServerVersion.V1_9, "BLOCK_WOOD_BUTTON_CLICK_ON"), v("WOOD_CLICK")),
     BLOCK_WOODEN_DOOR_CLOSE("DOOR_CLOSE"),
     BLOCK_WOODEN_DOOR_OPEN("DOOR_OPEN"),
@@ -842,9 +843,9 @@ public enum CompatibleSound {
     WEATHER_RAIN("AMBIENCE_RAIN"),
     WEATHER_RAIN_ABOVE;
 
-    protected static final boolean DEBUG = false;
     protected /*final*/ Sound sound;
     protected /*final*/ boolean compatibilityMode;
+    protected static final boolean DEBUG = false;
 
     private CompatibleSound() {
         // This could get risky, since we haven't finished this
@@ -856,7 +857,7 @@ public enum CompatibleSound {
                 break;
             }
         }
-        if (DEBUG && find == null) {
+        if(DEBUG && find == null) {
             System.out.println("Sound for " + name() + " Not found!");
         }
         sound = find;
@@ -932,22 +933,6 @@ public enum CompatibleSound {
         }
     }
 
-    private static Version v(String sound) {
-        return new Version(ServerVersion.UNKNOWN, sound, false);
-    }
-
-    private static Version v(ServerVersion version, String sound) {
-        return new Version(version, sound, false);
-    }
-
-    private static Version v(ServerVersion version, String sound, boolean compatibility) {
-        return new Version(version, sound, compatibility);
-    }
-
-    private static Version v(String sound, boolean compatibility) {
-        return new Version(ServerVersion.UNKNOWN, sound, compatibility);
-    }
-
     /**
      * Get a Bukkit API sound that matches this sound
      *
@@ -958,32 +943,32 @@ public enum CompatibleSound {
     }
 
     /**
-     * Send a sound to a specific com.illuzionzstudios.data.player
+     * Send a sound to a specific player
      *
-     * @param sendTo com.illuzionzstudios.data.player to send the sound to
+     * @param sendTo player to send the sound to
      */
     public void play(Player sendTo) {
         sendTo.playSound(sendTo.getLocation(), getSound(), 1F, 1F);
     }
 
     /**
-     * Send a sound to a specific com.illuzionzstudios.data.player
+     * Send a sound to a specific player
      *
-     * @param sendTo com.illuzionzstudios.data.player to send the sound to
+     * @param sendTo player to send the sound to
      * @param volume the volume of the sound
-     * @param pitch  the pitch of the sound
+     * @param pitch the pitch of the sound
      */
     public void play(Player sendTo, float volume, float pitch) {
         sendTo.playSound(sendTo.getLocation(), getSound(), volume, pitch);
     }
 
     /**
-     * Send a sound to a specific com.illuzionzstudios.data.player
+     * Send a sound to a specific player
      *
-     * @param sendTo   com.illuzionzstudios.data.player to send the sound to
+     * @param sendTo player to send the sound to
      * @param location where the sound should come from
-     * @param volume   the volume of the sound
-     * @param pitch    the pitch of the sound
+     * @param volume the volume of the sound
+     * @param pitch the pitch of the sound
      */
     public void play(Player sendTo, Location location, float volume, float pitch) {
         sendTo.playSound(sendTo.getLocation(), getSound(), volume, pitch);
@@ -992,19 +977,19 @@ public enum CompatibleSound {
     /**
      * Play a sound in a world
      *
-     * @param sendTo   world to send the sound to
+     * @param sendTo world to send the sound to
      * @param location where the sound should come from
-     * @param volume   the volume of the sound
-     * @param pitch    the pitch of the sound
+     * @param volume the volume of the sound
+     * @param pitch the pitch of the sound
      */
     public void play(World sendTo, Location location, float volume, float pitch) {
         sendTo.playSound(location, getSound(), volume, pitch);
     }
 
     /**
-     * Stop a currently active sound from playing for a com.illuzionzstudios.data.player
+     * Stop a currently active sound from playing for a player
      *
-     * @param sendTo com.illuzionzstudios.data.player to stop the sound for
+     * @param sendTo player to stop the sound for
      */
     public void stop(Player sendTo) {
         if (ServerVersion.isServerVersionAtLeast(ServerVersion.V1_10)) {
@@ -1021,6 +1006,22 @@ public enum CompatibleSound {
         return !compatibilityMode;
     }
 
+    private static Version v(String sound) {
+        return new Version(ServerVersion.UNKNOWN, sound, false);
+    }
+
+    private static Version v(ServerVersion version, String sound) {
+        return new Version(version, sound, false);
+    }
+
+    private static Version v(ServerVersion version, String sound, boolean compatibility) {
+        return new Version(version, sound, compatibility);
+    }
+
+    private static Version v(String sound, boolean compatibility) {
+        return new Version(ServerVersion.UNKNOWN, sound, compatibility);
+    }
+
     private static class Version {
 
         final ServerVersion version;
@@ -1035,3 +1036,4 @@ public enum CompatibleSound {
 
     }
 }
+

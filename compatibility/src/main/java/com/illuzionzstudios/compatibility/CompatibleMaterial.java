@@ -1283,6 +1283,7 @@ public enum CompatibleMaterial {
     }
 
     public static CompatibleMaterial getSpawnEgg(EntityType type) {
+        // Special case
         if (type == EntityType.MUSHROOM_COW) {
             return MOOSHROOM_SPAWN_EGG;
         }
