@@ -143,7 +143,8 @@ public abstract class BaseCommand extends Command {
 
                 // Test permission
                 if (!player.hasPermission(requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
-                    IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
+//                    IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
+                    new Message("&cInsufficient permissions").sendMessage(commandSender); // Until fix locale
                     return true;
                 }
 
@@ -160,7 +161,7 @@ public abstract class BaseCommand extends Command {
         } else if (this instanceof GlobalCommand) {
             this.commandSender = commandSender;
 
-            // Is com.illuzionzstudios.data.player
+            // Is player
             if (!(commandSender instanceof ConsoleCommandSender)) {
                 this.player = (Player) commandSender;
             }
@@ -168,7 +169,8 @@ public abstract class BaseCommand extends Command {
             if (commandSender instanceof Player && !commandSender.isOp()) {
                 if (requiredPermission != null) {
                     if (!commandSender.hasPermission(requiredPermission.getPermissionNode()) && !commandSender.isOp()) {
-                        IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
+//                        IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
+                        new Message("&cInsufficient permissions").sendMessage(commandSender); // Until fix locale
                         return true;
                     }
                 }
@@ -211,7 +213,8 @@ public abstract class BaseCommand extends Command {
     public void sub(String subName, IPermission permission, SubAction function) {
         if (sub(subName)) {
             if (!commandSender.hasPermission(permission.getPermissionNode()) && !commandSender.isOp()) {
-                IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
+//                IlluzionzPlugin.getInstance().getLocale().getMessage("general.nopermission").sendPrefixedMessage(commandSender);
+                new Message("&cInsufficient permissions").sendMessage(commandSender); // Until fix locale
                 return;
             }
             function.execute(player);

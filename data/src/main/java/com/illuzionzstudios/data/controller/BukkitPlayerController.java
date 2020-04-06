@@ -159,9 +159,6 @@ public abstract class BukkitPlayerController<P extends Plugin, BP extends Bukkit
             return;
         }
 
-
-        event.setQuitMessage(null);
-
         this.handleLogout(player);
     }
 }

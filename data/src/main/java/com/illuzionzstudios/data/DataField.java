@@ -15,13 +15,11 @@ import com.illuzionzstudios.data.player.AbstractPlayerData;
 import com.illuzionzstudios.data.controller.PlayerDataController;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import static org.apache.commons.lang3.StringUtils.contains;
 
 /**
  * A field in a players data
@@ -164,5 +162,9 @@ public class DataField<T> {
         }
 
         return queryingField;
+    }
+
+    private boolean contains(String queryingField, String s) {
+        return queryingField.toLowerCase().contains(s.toLowerCase());
     }
 }
