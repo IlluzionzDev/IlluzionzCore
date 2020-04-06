@@ -125,7 +125,7 @@ public abstract class BukkitPlayerController<P extends Plugin, BP extends Bukkit
             return;
         }
 
-        Logger.info("%s is logging into the server", event.getName());
+//        Logger.info("%s is logging into the server", event.getName());
 
         BP player = this.handleLogin(event.getUniqueId(), event.getName());
     }

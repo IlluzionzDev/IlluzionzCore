@@ -94,7 +94,7 @@ public abstract class AbstractPlayerController<P extends AbstractPlayer> {
      * @return The loaded player object
      */
     protected P handleLogin(UUID uuid, String name) {
-        Logger.info("Loading %s's player data from database onto server.", name);
+//        Logger.info("Loading %s's player data from database onto server.", name);
 
         // Load a player's data if set from offline player
         if (offlineCache.containsKey(uuid)) {
@@ -168,7 +168,7 @@ public abstract class AbstractPlayerController<P extends AbstractPlayer> {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            Logger.info("%s has sucessfully been logged out.", player.getName());
+//            Logger.info("%s has sucessfully been logged out.", player.getName());
             MinecraftScheduler.get().dismissSynchronizationService(player);
             players.remove(player);
         }

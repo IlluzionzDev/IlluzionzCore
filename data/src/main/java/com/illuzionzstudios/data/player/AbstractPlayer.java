@@ -136,7 +136,7 @@ public abstract class AbstractPlayer {
             this.cachedData.put(field, value);
         });
 
-        Logger.info("%s's player data loaded into server.", name);
+//        Logger.info("%s's player data loaded into server.", name);
 
         this.loaded.set(true);
         PlayerDataController.get().applyDefaultData(this);
@@ -186,7 +186,7 @@ public abstract class AbstractPlayer {
      * NEVER SERVER THREAD SAFE
      */
     public boolean upload() {
-        Logger.info("Saving %s's player data.", name);
+//        Logger.info("Saving %s's player data.", name);
 
         // Upload modified data
         this.modifiedKeys.forEach((field) -> {
