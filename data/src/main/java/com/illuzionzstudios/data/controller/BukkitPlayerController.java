@@ -67,6 +67,11 @@ public abstract class BukkitPlayerController<P extends Plugin, BP extends Bukkit
             }
         }
 
+        // Save offline players
+        getOfflineCache().forEach((uuid, player) -> {
+            player.unsafeSave();
+        });
+
         // Now disconnect database
         PlayerDataController.get().getDatabase().disconnect();
     }

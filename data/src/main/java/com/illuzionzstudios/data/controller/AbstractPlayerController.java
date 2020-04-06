@@ -39,6 +39,7 @@ public abstract class AbstractPlayerController<P extends AbstractPlayer> {
     /**
      * Cache of offline players
      */
+    @Getter
     protected Map<UUID, OfflinePlayer> offlineCache = new ConcurrentHashMap<>();
 
     /**

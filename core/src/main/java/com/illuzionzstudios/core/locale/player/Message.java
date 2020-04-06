@@ -1,6 +1,7 @@
 package com.illuzionzstudios.core.locale.player;
 
 import com.illuzionzstudios.compatibility.ServerVersion;
+import com.illuzionzstudios.core.plugin.IlluzionzPlugin;
 import lombok.Setter;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -52,10 +53,17 @@ public class Message {
     /**
      * create a new message
      *
-     * @param message the message text
+     * @param key the message text key
+     * @param objects Objects to format as two objects in array
      */
-    public Message(String message) {
-        this.message = message;
+    public Message(String key, String[]... objects) {
+        // Format from locale
+        this.message = IlluzionzPlugin.getInstance().getLocale().getMessageOrDefault(key, key).getMessage();
+
+        // Format placeholders
+        for (String[] object : objects) {
+            processPlaceholder(object[0], object[1]);
+        }
     }
 
     /**
@@ -164,6 +172,7 @@ public class Message {
 
     /**
      * Get and format the held message
+     * Tries to get from locale otherwise
      *
      * @return the message
      */
@@ -210,7 +219,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return this.message;
+        return getMessage();
     }
 }
 
