@@ -119,6 +119,16 @@ public class DataField<T> {
         controller.getDatabase().setCachedValue(playerData.getPlayer(), getQueryingField(), value);
     }
 
+    /**
+     * Used to update the current querying field ready for upload
+     *
+     * Used when the get() value modified something (i.e a list from get() was modified)... Basically only used for key tracking
+     */
+    public void set() {
+        String queryingField = getQueryingField();
+        playerData.getPlayer().modifyKey(queryingField);
+    }
+
     public T getLocalValue() {
         if (this.localValue == null) {
             this.localValue = get();
