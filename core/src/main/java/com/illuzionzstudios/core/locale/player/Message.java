@@ -53,17 +53,10 @@ public class Message {
     /**
      * create a new message
      *
-     * @param key the message text key
-     * @param objects Objects to format as two objects in array
+     * @param msg the message text key
      */
-    public Message(String key, Object[]... objects) {
-        // Format from locale
-        this.message = IlluzionzPlugin.getInstance().getLocale().getMessageOrDefault(key, key).getMessage();
-
-        // Format placeholders
-        for (Object[] object : objects) {
-            processPlaceholder((String) object[0], object[1]);
-        }
+    public Message(String msg) {
+        this.message = msg;
     }
 
     /**

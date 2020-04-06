@@ -5,6 +5,7 @@ import com.illuzionzstudios.config.ConfigSection;
 import com.illuzionzstudios.core.locale.player.Message;
 import com.illuzionzstudios.core.util.Logger;
 import com.illuzionzstudios.config.util.TextUtils;
+import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.Plugin;
@@ -36,6 +37,7 @@ public class Locale {
     private static final Pattern OLD_NODE_PATTERN = Pattern.compile("^([^ ]+)\\s*=\\s*\"?(.*?)\"?$");
     private static final String FILE_EXTENSION = ".lang";
 
+    @Getter
     private final Map<String, String> nodes = new HashMap<>();
     private final Plugin plugin;
     private final File file;
