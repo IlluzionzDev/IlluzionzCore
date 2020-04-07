@@ -54,6 +54,7 @@ public class YAMLDatabase implements Database {
         // Local data file
         Config dataConfig = new Config(IlluzionzPlugin.getInstance(), "/data", player.getUUID() + ".yml");
 
+        dataConfig.load();
         return dataConfig.get(queryingField);
     }
 
@@ -62,8 +63,9 @@ public class YAMLDatabase implements Database {
         // Local data file
         Config dataConfig = new Config(IlluzionzPlugin.getInstance(), "/data", player.getUUID() + ".yml");
 
+        dataConfig.load();
         dataConfig.set(queryingField, value);
-        dataConfig.save();
+        dataConfig.saveChanges();
     }
 
     @Override

@@ -62,7 +62,7 @@ public abstract class AbstractPlayer {
     private ArrayList<AbstractPlayerData<?>> data = new ArrayList<>();
 
     /**
-     * If the player data has been loading into the cache
+     * If the player data has been loaded into the cache
      */
     private AtomicBoolean loaded = new AtomicBoolean(false);
 
@@ -125,16 +125,18 @@ public abstract class AbstractPlayer {
         // Shouldn't try to load twice
         if (loaded.get()) return;
 
+        // Loading stored data into cache
+        PlayerDataController.get().getDatabase().getFields(this).forEach((field, value) -> {
+            Logger.debug(field + ":" + value);
+
+            // Simply insert into cached data
+            this.cachedData.put(field, value);
+        });
+
         // If stored data is empty, try upload cached data first
         if (PlayerDataController.get().getDatabase().getFields(this).isEmpty()) {
             upload();
         }
-
-        // Loading stored data into cache
-        PlayerDataController.get().getDatabase().getFields(this).forEach((field, value) -> {
-            // Simply insert into cached data
-            this.cachedData.put(field, value);
-        });
 
 //        Logger.info("%s's player data loaded into server.", name);
 
@@ -189,15 +191,17 @@ public abstract class AbstractPlayer {
 //        Logger.info("Saving %s's player data.", name);
 
         // Upload modified data
-        this.modifiedKeys.forEach((field) -> {
-            Object value = this.cachedData.getOrDefault(field, null);
+        for (String key : this.modifiedKeys) {
+            Object value = this.cachedData.getOrDefault(key, null);
+
+            Logger.debug(key + ":" + value);
 
             // Don't save if nothing to save
-            if (value == null) return;
+            if (value == null) continue;
 
             // Set the field in the database
-            PlayerDataController.get().getDatabase().setFieldValue(this, field, value);
-        });
+            PlayerDataController.get().getDatabase().setFieldValue(this, key, value);
+        }
 
         resetModifiedKeys();
 
