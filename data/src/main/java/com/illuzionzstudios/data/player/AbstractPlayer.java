@@ -127,8 +127,6 @@ public abstract class AbstractPlayer {
 
         // Loading stored data into cache
         PlayerDataController.get().getDatabase().getFields(this).forEach((field, value) -> {
-            Logger.debug(field + ":" + value);
-
             // Simply insert into cached data
             this.cachedData.put(field, value);
         });
@@ -193,8 +191,6 @@ public abstract class AbstractPlayer {
         // Upload modified data
         for (String key : this.modifiedKeys) {
             Object value = this.cachedData.getOrDefault(key, null);
-
-            Logger.debug(key + ":" + value);
 
             // Don't save if nothing to save
             if (value == null) continue;
