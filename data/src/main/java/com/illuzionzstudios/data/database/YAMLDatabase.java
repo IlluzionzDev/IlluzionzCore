@@ -80,11 +80,7 @@ public class YAMLDatabase implements Database {
         // Go through files
         for (File file : files) {
             // Get name without extension
-            String uuid = file.getName();
-            int pos = uuid.lastIndexOf(".");
-            if (pos > 0 && pos < (uuid.length() - 1)) { // If '.' is not the first or last character.
-                uuid = uuid.substring(0, pos);
-            }
+            String uuid = file.getName().split("\\.")[0];
 
             // Get offline player
             OfflinePlayer player = BukkitPlayerController.INSTANCE.getOfflinePlayer(UUID.fromString(uuid), Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName());

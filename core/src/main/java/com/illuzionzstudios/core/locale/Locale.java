@@ -225,12 +225,12 @@ public class Locale {
                                 "our translation Discord https://discord.gg/f7fpZEf",
                                 "to request an official update!",
                                 "",
-                                added.stream().collect(Collectors.joining("\n"))
+                                String.join("\n", added)
                         );
                     } else {
                         existingLang.setHeader("New messages added for " + plugin.getName() + " v" + plugin.getDescription().getVersion() + ".",
                                 "",
-                                added.stream().collect(Collectors.joining("\n"))
+                                String.join("\n", added)
                         );
                     }
                 }
@@ -313,7 +313,7 @@ public class Locale {
                 .map(e -> e.getKey())
                 .collect(Collectors.toList());
         if (!msgs.isEmpty()) {
-            String source[] = file.split("\n");
+            String[] source = file.split("\n");
             String line;
             for (int lineNumber = 0; lineNumber < source.length; lineNumber++) {
                 line = source[lineNumber];

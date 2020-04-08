@@ -8,8 +8,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Copyright © 2020 Property of Illuzionz Studios, LLC
@@ -26,11 +29,34 @@ import java.util.List;
  */
 public abstract class IlluzionzPlugin extends JavaPlugin {
 
+    /**
+     * If the plugin is in DEBUG mode
+     */
     public static final boolean DEBUG = true;
+
+    /**
+     * Instance of our plugin
+     */
     protected static IlluzionzPlugin INSTANCE;
+
+    /**
+     * Locale for this plugin.
+     */
     protected Locale locale;
+
+    /**
+     * Core plugin config
+     */
     protected Config config = new Config(this);
+
+    /**
+     * Main console sender
+     */
     protected ConsoleCommandSender console = Bukkit.getConsoleSender();
+
+    /**
+     * Something fatal occurred, stop the plugin
+     */
     private boolean emergencyStop = false;
 
     /**
@@ -44,6 +70,7 @@ public abstract class IlluzionzPlugin extends JavaPlugin {
     public final void onLoad() {
         try {
             onPluginLoad();
+            INSTANCE = this;
         } catch (Throwable t) {
             Logger.severe(
                     "Unexpected error while loading " + getDescription().getName()
@@ -68,9 +95,8 @@ public abstract class IlluzionzPlugin extends JavaPlugin {
                 ChatColor.GREEN.toString(), "Enabling", ChatColor.GRAY.toString()));
 
         try {
-            locale = Locale.loadDefaultLocale(this, "en_US");
             // plugin setup
-            INSTANCE = this;
+            locale = Locale.loadDefaultLocale(this, "en_US");
 
             onPluginEnable();
             if (emergencyStop) {
@@ -126,15 +152,25 @@ public abstract class IlluzionzPlugin extends JavaPlugin {
      */
     public abstract List<Config> getExtraConfig();
 
+    /**
+     * @return The {@link FileConfiguration} of the core config
+     */
+    @NotNull
     @Override
     public FileConfiguration getConfig() {
         return config.getFileConfig();
     }
 
+    /**
+     * @return Main plugin config
+     */
     public Config getCoreConfig() {
         return config;
     }
 
+    /**
+     * Reload our core config and reload other stuff
+     */
     @Override
     public void reloadConfig() {
         config.load();
@@ -172,7 +208,9 @@ public abstract class IlluzionzPlugin extends JavaPlugin {
         }
     }
 
-
+    /**
+     * Stop the plugin should an error occur
+     */
     protected void emergencyStop() {
         emergencyStop = true;
         Bukkit.getPluginManager().disablePlugin(this);
