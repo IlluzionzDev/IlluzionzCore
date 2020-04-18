@@ -43,23 +43,23 @@ public abstract class AbstractPlayer {
     /**
      * Keys in the data to always be replaced
      */
-    private HashMap<String, String> keyMetadata = new HashMap<>();
+    private final HashMap<String, String> keyMetadata = new HashMap<>();
 
     /**
      * Keys in the data that have been modified
      * Used for tracking whether to bother setting data
      */
-    private CopyOnWriteArrayList<String> modifiedKeys = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<String> modifiedKeys = new CopyOnWriteArrayList<>();
 
     /**
      * Local data stored before being saved
      */
-    private HashMap<String, Object> cachedData = new HashMap<>();
+    private final HashMap<String, Object> cachedData = new HashMap<>();
 
     /**
      * Player data associated with this player
      */
-    private ArrayList<AbstractPlayerData<?>> data = new ArrayList<>();
+    private final ArrayList<AbstractPlayerData<?>> data = new ArrayList<>();
 
     /**
      * If the player data has been loaded into the cache
@@ -178,6 +178,24 @@ public abstract class AbstractPlayer {
     public void unsafeSave() {
         prepareSaveData();
         upload();
+    }
+
+    /**
+     * BE VERY CAREFUL USING THIS
+     *
+     * This will wipe all data for this current user
+     */
+    public void clearAllData() {
+        // Clear loaded/cached data
+        this.cachedData.forEach((key, data) -> {
+            PlayerDataController.get().getDatabase().setFieldValue(this, key, null);
+        });
+
+        // Now clear cached data as not to save it
+        this.cachedData.clear();
+
+        // Don't save any data trying to be saved
+        this.modifiedKeys.clear();
     }
 
     /**
