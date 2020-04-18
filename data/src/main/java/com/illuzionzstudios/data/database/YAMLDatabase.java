@@ -11,6 +11,7 @@ package com.illuzionzstudios.data.database;
  */
 
 import com.illuzionzstudios.config.Config;
+import com.illuzionzstudios.core.bukkit.util.UUIDFetcher;
 import com.illuzionzstudios.core.plugin.IlluzionzPlugin;
 import com.illuzionzstudios.core.util.Logger;
 import com.illuzionzstudios.data.controller.BukkitPlayerController;
@@ -82,8 +83,10 @@ public class YAMLDatabase implements Database {
             // Get name without extension
             String uuid = file.getName().split("\\.")[0];
 
+            String name = UUIDFetcher.getName(UUID.fromString(uuid));
+
             // Get offline player
-            OfflinePlayer player = BukkitPlayerController.INSTANCE.getOfflinePlayer(UUID.fromString(uuid), Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName());
+            OfflinePlayer player = BukkitPlayerController.INSTANCE.getOfflinePlayer(UUID.fromString(uuid), name);
 
             // Add to cache
             savedPlayers.add(player);
