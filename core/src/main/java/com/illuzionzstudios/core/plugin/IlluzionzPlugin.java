@@ -90,7 +90,7 @@ public abstract class IlluzionzPlugin extends JavaPlugin {
         console.sendMessage(" "); // blank line to separate chatter
         console.sendMessage(ChatColor.GREEN + "=============================");
         console.sendMessage(String.format("%s%s %s by %sIlluzionz Studios", ChatColor.GRAY.toString(),
-                getDescription().getName(), getDescription().getVersion(), ChatColor.BLUE.toString()));
+                getPluginName(), getPluginVersion(), ChatColor.BLUE.toString()));
         console.sendMessage(String.format("%sAction: %s%s%s...", ChatColor.GRAY.toString(),
                 ChatColor.GREEN.toString(), "Enabling", ChatColor.GRAY.toString()));
 
@@ -106,8 +106,8 @@ public abstract class IlluzionzPlugin extends JavaPlugin {
             }
         } catch (Throwable t) {
             Logger.severe(
-                    "Unexpected error while loading " + getDescription().getName()
-                            + " v" + getDescription().getVersion()
+                    "Unexpected error while loading " + getPluginName()
+                            + " v" + getPluginVersion()
                             + ": Disabling plugin!", t);
             emergencyStop();
             console.sendMessage(ChatColor.RED + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
