@@ -67,7 +67,7 @@ public class Message {
      */
     public void sendMessage(Player player) {
         // Check for split lore
-        String[] strings = getMessage().split("\n");
+        String[] strings = getMessage().split("\\n");
         player.sendMessage(strings);
     }
 
@@ -87,7 +87,7 @@ public class Message {
      * @param sender command sender to send the message to
      */
     public void sendMessage(CommandSender sender) {
-        String[] strings = getMessage().split("\n");
+        String[] strings = getMessage().split("\\n");
         sender.sendMessage(strings);
     }
 
@@ -179,7 +179,7 @@ public class Message {
      * @return the message
      */
     public List<String> getMessageLines() {
-        return Arrays.asList(ChatColor.translateAlternateColorCodes('&', this.message).split("\n|\\|"));
+        return Arrays.asList(ChatColor.translateAlternateColorCodes('&', this.message).split("[\\n|]"));
     }
 
     /**

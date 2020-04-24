@@ -41,6 +41,44 @@ public class StringUtil {
         return getBar(color, character, coloredBars, 0, size);
     }
 
+    /**
+     * @param maxLength Pixels to trim to
+     */
+    public static String getTrimmedText(int maxLength, String text) {
+        int messagePxSize = 0;
+        int subLength = 0;
+        boolean previousCode = false;
+        boolean isBold = false;
+
+        for (char c : text.toCharArray()) {
+            if (c == '§') {
+                previousCode = true;
+            } else if (previousCode) {
+                previousCode = false;
+                if (c == 'l' || c == 'L') {
+                    isBold = true;
+                } else {
+                    isBold = false;
+                }
+            } else {
+                DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
+                messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
+                messagePxSize++;
+
+                // Increment only if no bold as
+                // if bold we don't want to substring that
+                if (!isBold) subLength++;
+            }
+
+            if (messagePxSize > maxLength) {
+                // Return sub
+                return text.substring(0, subLength);
+            }
+        }
+
+        return text;
+    }
+
     public static String trimEnd(String value) {
         int len = value.length();
         int st = 0;
@@ -104,7 +142,7 @@ public class StringUtil {
             if (c == '§') {
                 previousCode = true;
                 continue;
-            } else if (previousCode == true) {
+            } else if (previousCode) {
                 previousCode = false;
                 if (c == 'l' || c == 'L') {
                     isBold = true;
