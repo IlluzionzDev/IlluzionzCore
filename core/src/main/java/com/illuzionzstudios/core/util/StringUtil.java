@@ -331,47 +331,6 @@ public class StringUtil {
         return new DecimalFormat(formatter.toString()).format(number);
     }
 
-    public static String generateProgressBar(int amount, int total) {
-        return StringUtil.generateProgressBar(amount, total, "■", ChatColor.GREEN, ChatColor.GRAY);
-    }
-
-    public static String generateProgressBar(int amount, int total, String character, ChatColor onColor, ChatColor offColor) {
-        StringBuilder bar = new StringBuilder();
-        for (int i = 0; i < total; i++) {
-            ChatColor color = (amount > i ? onColor : offColor);
-            bar.append(color + character);
-        }
-
-        return bar.toString();
-    }
-
-
-    public static String getProgressBar(String text, int percent, ChatColor backgroundColor, ChatColor bracketColor, ChatColor tallyColor, ChatColor previousColor) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(bracketColor + "[");
-        String progressBar = text;
-
-
-        for (int i = 0; i < progressBar.length(); i++) {
-            char c = progressBar.charAt(i);
-            ChatColor desiredColor = backgroundColor;
-
-            //if % through the string <= % sprint, then make it colored
-            if ((double) i / (double) progressBar.length() <= (double) percent / 100D && percent != 0) {
-                desiredColor = tallyColor;
-            }
-            if (previousColor != desiredColor) {
-                previousColor = desiredColor;
-                sb.append(desiredColor);
-            }
-
-            sb.append(c);
-        }
-
-        return sb.append(bracketColor + "]").toString();
-    }
-
-
     public static String convertToRoman(int mInt) {
         String[] rnChars = {"M", "CM", "D", "C", "XC", "L", "X", "IX", "V", "I"};
         int[] rnVals = {1000, 900, 500, 100, 90, 50, 10, 9, 5, 1};

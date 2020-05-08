@@ -36,7 +36,7 @@ public class Message {
             Class.forName("net.md_5.bungee.api.chat.TextComponent");
             Player.Spigot.class.getDeclaredMethod("sendMessage", net.md_5.bungee.api.ChatMessageType.class, net.md_5.bungee.api.chat.TextComponent.class);
             canActionBar = true;
-        } catch (Exception ex) {
+        } catch (Exception ignored) {
         }
     }
 

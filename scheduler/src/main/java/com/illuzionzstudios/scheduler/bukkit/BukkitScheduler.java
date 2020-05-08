@@ -27,6 +27,10 @@ import java.util.function.Consumer;
 public class BukkitScheduler extends MinecraftScheduler {
 
     private final Plugin plugin;
+
+    /**
+     * Ids of the schedulers
+     */
     private int SYNC_SCHEDULER = -1, ASYNC_SCHEDULER = -1;
 
     @Override

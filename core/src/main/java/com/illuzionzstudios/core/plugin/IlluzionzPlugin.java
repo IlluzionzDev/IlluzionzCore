@@ -69,8 +69,8 @@ public abstract class IlluzionzPlugin extends JavaPlugin {
     @Override
     public final void onLoad() {
         try {
-            onPluginLoad();
             INSTANCE = this;
+            onPluginLoad();
         } catch (Throwable t) {
             Logger.severe(
                     "Unexpected error while loading " + getDescription().getName()

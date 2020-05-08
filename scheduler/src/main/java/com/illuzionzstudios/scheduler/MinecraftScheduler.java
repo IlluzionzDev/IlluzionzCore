@@ -29,6 +29,7 @@ import java.util.function.Consumer;
 public abstract class MinecraftScheduler {
 
     protected static final long TIME_WARNING_THRESHOLD = 60;
+
     /**
      * ALL SYNCHRONIZED DATA WILL BE STORED HERE
      * DOES NOT REMOVE DEAD OBJECTS BE SURE TO DISMISS SERVICE WHEN FINISHED
@@ -53,7 +54,9 @@ public abstract class MinecraftScheduler {
         start();
     }
 
-
+    /**
+     * Stop all tickers
+     */
     public void stopInvocation() {
         stop();
 
@@ -183,13 +186,13 @@ public abstract class MinecraftScheduler {
                 }
 
                 try {
-                    instance.informError("Error occured while ticking com.illuzionzstudios.data.player");
+                    instance.informError("Error occured while ticking player");
                 } finally {
                     try {
                         instance.destroy();
                     } catch (Exception anotherException) {
                         try {
-                            instance.kickPlayer("Error occured while ticking com.illuzionzstudios.data.player");
+                            instance.kickPlayer("Error occured while ticking player");
                         } finally {
                             anotherException.printStackTrace();
                         }
