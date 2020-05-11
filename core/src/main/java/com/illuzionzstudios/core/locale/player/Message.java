@@ -60,6 +60,13 @@ public class Message {
     }
 
     /**
+     * @param key Get a message from the lang file
+     */
+    public static Message of(String key) {
+        return IlluzionzPlugin.getInstance().getLocale().getMessageOrDefault(key, key);
+    }
+
+    /**
      * Format and send the held message to a player.
      * Detect if string is split and send multiple lines
      *
