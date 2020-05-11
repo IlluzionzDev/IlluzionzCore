@@ -1108,7 +1108,7 @@ public enum CompatibleMaterial {
             material = compatibleMaterial.material;
             data = compatibleMaterial.data;
         } else {
-            material = null;
+            material = Material.getMaterial(modern);
             data = null;
         }
 

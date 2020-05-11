@@ -1,6 +1,7 @@
 package com.illuzionzstudios.ui.types.page;
 
 import com.illuzionzstudios.core.bukkit.item.ItemStackFactory;
+import com.illuzionzstudios.core.locale.player.Message;
 import com.illuzionzstudios.ui.button.InterfaceButton;
 import com.illuzionzstudios.ui.types.UserInterface;
 import lombok.Getter;
@@ -32,10 +33,10 @@ public abstract class DividedInterface extends UserInterface {
     protected List<InterfaceExtent> interfaces = new ArrayList<>();
 
     @Setter
-    protected ItemStack nextPage = new ItemStackFactory(Material.ARROW).name("ui.next").get();
+    protected ItemStack nextPage = new ItemStackFactory(Material.ARROW).name(Message.of("ui.next")).get();
 
     @Setter
-    protected ItemStack prevPage = new ItemStackFactory(Material.ARROW).name("ui.prev").get();
+    protected ItemStack prevPage = new ItemStackFactory(Material.ARROW).name(Message.of("ui.prev")).get();
 
     protected int page = -1;
 
