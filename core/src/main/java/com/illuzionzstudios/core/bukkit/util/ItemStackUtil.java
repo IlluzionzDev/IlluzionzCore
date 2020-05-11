@@ -5,6 +5,7 @@ import com.illuzionzstudios.core.util.StringUtil;
 import com.mojang.authlib.GameProfile;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -24,20 +25,22 @@ import java.util.Objects;
  */
 
 public class ItemStackUtil {
-    //Combines the lore into a single string (useful for .contains, etc)
-    public static String getCombinedLore(ItemStack... items) {
-        StringBuilder loreString = new StringBuilder();
 
-        for (ItemStack i : items) {
-            List<String> lore = i.getItemMeta().getLore();
-            if (lore == null) {
-                return "";
-            }
-            for (String s : lore) {
-                loreString.append(s + " ");
-            }
+    public static String serialize(ItemStack itemStack) {
+        YamlConfiguration config = new YamlConfiguration();
+        config.set("i", itemStack);
+        return config.saveToString();
+    }
+
+    public static ItemStack deserialize(String stringBlob) {
+        YamlConfiguration config = new YamlConfiguration();
+        try {
+            config.loadFromString(stringBlob);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        return loreString.toString();
+        return config.getItemStack("i", null);
     }
 
     public static boolean hasRoomInInventory(Player player, int stacks) {
@@ -61,26 +64,6 @@ public class ItemStackUtil {
         }
         return loreString.toString();
     }
-
-
-    public static boolean isSimilar(ItemStack item1, ItemStack item2) {
-        if (item1 == null || item2 == null) {
-            return false;
-        }
-        if (item1.getType() == item2.getType()) {
-            if (item1.getDurability() == item2.getDurability()) {
-                if (item1.hasItemMeta() && item2.hasItemMeta()) {
-                    if (Objects.equals(item1.getItemMeta().getDisplayName(), item2.getItemMeta().getDisplayName())) {
-                        if (item1.getItemMeta().hasLore() && item2.getItemMeta().hasLore()) {
-                            return item1.getItemMeta().getLore().equals(item2.getItemMeta().getLore());
-                        } else return !item1.getItemMeta().hasLore() && !item2.getItemMeta().hasLore();
-                    }
-                } else return !item1.hasItemMeta() && !item2.hasItemMeta();
-            }
-        }
-        return false;
-    }
-
 
     //Splits a single string into multiple lines. Maintains color on each line
     public static List<String> getSplitLore(String toSplit, int limit) {
