@@ -296,6 +296,19 @@ public class StringUtil {
         return true;
     }
 
+    public static String loreListToString(List<String> strings) {
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < strings.size(); i++) {
+            builder.append(strings.get(i));
+
+            // New line if not end
+            if (i != strings.size() - 1)
+                builder.append("\n");
+        }
+
+        builder.toString();
+    }
 
     public static List<String> splitLoreString(String toSplit) {
         return splitLoreString(toSplit, 23);
