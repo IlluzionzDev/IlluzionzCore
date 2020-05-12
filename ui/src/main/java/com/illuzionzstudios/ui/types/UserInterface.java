@@ -41,22 +41,32 @@ public abstract class UserInterface implements IUserInterface {
     protected Inventory inventory;
 
     /**
-     * The com.illuzionzstudios.data.player bukkit com.illuzionzstudios.data.player
+     * The bukkit player
      */
     protected Player player;
+
     /**
      * Rendered buttons
      */
     protected List<InterfaceButton> buttons = new CopyOnWriteArrayList<>();
+
     /**
      * Custom slot listeners
      */
     HashMap<Integer, InterfaceClickListener> slotListeners = new HashMap<>();
+
     /**
      * If false, no listeners will be called
      */
     @Setter
     private boolean clickable = true;
+
+    /**
+     * If the interface was forcibly closed by us
+     */
+    @Getter
+    private boolean forciblyClosed = false;
+
     /**
      * Listener for when com.illuzionzstudios.data.player clicks there own inventory
      * if null no listeners will be called
@@ -129,6 +139,7 @@ public abstract class UserInterface implements IUserInterface {
      */
     public void close() {
         InterfaceController.INSTANCE.getActiveInterfaces().remove(this);
+        this.forciblyClosed = true;
         onClose();
         player.closeInventory();
     }
