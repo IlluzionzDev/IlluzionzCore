@@ -307,7 +307,7 @@ public class StringUtil {
                 builder.append("\n");
         }
 
-        builder.toString();
+        return builder.toString();
     }
 
     public static List<String> splitLoreString(String toSplit) {
