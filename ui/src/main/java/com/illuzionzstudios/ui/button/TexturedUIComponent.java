@@ -34,7 +34,7 @@ public class TexturedUIComponent {
         this.slot = slot;
 
         // Default type for texture UI component
-        this.item = new ItemStackFactory(Material.DIAMOND_PICKAXE);
+        this.item = new ItemStackFactory(Material.AIR);
 
         this.item.data(id);
         this.item.rawName(" ");

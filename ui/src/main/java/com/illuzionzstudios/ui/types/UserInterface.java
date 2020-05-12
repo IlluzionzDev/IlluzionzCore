@@ -124,6 +124,15 @@ public abstract class UserInterface implements IUserInterface {
         }
     }
 
+    /**
+     * Forcefully close the interface
+     */
+    public void close() {
+        InterfaceController.INSTANCE.getActiveInterfaces().remove(this);
+        onClose();
+        player.closeInventory();
+    }
+
     public void render() {
         inventory.clear();
 
