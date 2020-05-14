@@ -53,7 +53,7 @@ public abstract class UserInterface implements IUserInterface {
     /**
      * Custom slot listeners
      */
-    HashMap<Integer, InterfaceClickListener> slotListeners = new HashMap<>();
+    private HashMap<Integer, InterfaceClickListener> slotListeners = new HashMap<>();
 
     /**
      * If false, no listeners will be called
@@ -68,7 +68,7 @@ public abstract class UserInterface implements IUserInterface {
     private boolean forciblyClosed = false;
 
     /**
-     * Listener for when com.illuzionzstudios.data.player clicks there own inventory
+     * Listener for when player clicks there own inventory
      * if null no listeners will be called
      */
     @Setter
@@ -84,22 +84,25 @@ public abstract class UserInterface implements IUserInterface {
     }
 
     public void open(Player player) {
-        open(player, true);
+        open(true,player);
     }
 
     public void openInventory(Player player) {
-        InterfaceController.INSTANCE.getActiveInterfaces().add(this);
         player.openInventory(inventory);
+        InterfaceController.INSTANCE.getActiveInterfaces().add(this);
     }
 
     public void open(boolean build, Player... players) {
         try {
+            destroy();
             MinecraftScheduler.get().validateMainThread();
-            this.player = player;
+
+            this.player = players[0];
 
             if (build) {
                 build();
             }
+
             for (Player player : players) {
                 openInventory(player);
             }
@@ -107,7 +110,7 @@ public abstract class UserInterface implements IUserInterface {
         } catch (Exception e) {
             e.printStackTrace();
             for (Player player : players) {
-                new Message("&cCould not open interace").sendMessage(player);
+                new Message("&cCould not open interface").sendMessage(player);
                 player.closeInventory();
             }
             InterfaceController.INSTANCE.getActiveInterfaces().remove(this);
@@ -115,33 +118,21 @@ public abstract class UserInterface implements IUserInterface {
         }
     }
 
-    public void open(Player player, boolean build) {
-        try {
-            MinecraftScheduler.get().validateMainThread();
-            this.player = player;
-
-            if (build) {
-                build();
-            }
-
-            openInventory(player);
-        } catch (Exception e) {
-            e.printStackTrace();
-            new Message("&cCould not open interface").sendMessage(player);
-            InterfaceController.INSTANCE.getActiveInterfaces().remove(this);
-            onClose();
-            player.closeInventory();
-        }
-    }
-
     /**
      * Forcefully close the interface
      */
     public void close() {
-        InterfaceController.INSTANCE.getActiveInterfaces().remove(this);
+        destroy();
         this.forciblyClosed = true;
         onClose();
         player.closeInventory();
+    }
+
+    /**
+     * Remove the instance from listening for clicks
+     */
+    public void destroy() {
+        InterfaceController.INSTANCE.getActiveInterfaces().remove(this);
     }
 
     public void render() {
@@ -220,7 +211,6 @@ public abstract class UserInterface implements IUserInterface {
     public InterfaceButton getButton(int slot) {
         return buttons.stream().filter(button -> button.getSlot() == slot).findAny().orElse(null);
     }
-
 
     public void addButton(InterfaceButton button) {
         //Remove any button already in that slot...

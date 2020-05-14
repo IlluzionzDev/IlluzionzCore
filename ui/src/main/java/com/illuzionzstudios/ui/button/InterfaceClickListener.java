@@ -18,7 +18,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
  */
 public interface InterfaceClickListener {
 
-    //The event is by default cancelled. Can be renewed via the event
+    /**
+     * Called via the listener on click
+     */
     void onClick(Player player, InventoryClickEvent event);
 
 }

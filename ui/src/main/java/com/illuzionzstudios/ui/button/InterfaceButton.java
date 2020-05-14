@@ -24,11 +24,30 @@ import org.bukkit.inventory.ItemStack;
 @Builder
 @Setter
 public class InterfaceButton {
+
+    /**
+     * Id to identify the button
+     */
     private String id;
+
+    /**
+     * The slot this buton sits in
+     */
     private int slot;
+
+    /**
+     * Icon to display in the interact
+     */
     private ItemStack icon;
+
+    /**
+     * The listener that runs on click
+     */
     private InterfaceClickListener listener;
 
+    /**
+     * Create a new instance of this exact instance
+     */
     public InterfaceButton clone() {
         return new InterfaceButton(id, slot, icon, listener);
     }
