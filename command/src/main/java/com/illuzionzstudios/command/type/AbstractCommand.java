@@ -132,6 +132,9 @@ public abstract class AbstractCommand extends Command {
                     new Message(getUsage()).sendMessage(commandSender);
                     return true;
                 }
+            } else {
+                // Set back to this if the sub not found
+                command = this;
             }
         } else {
             // Only set local arguments if not a sub command
