@@ -21,14 +21,16 @@ import org.bukkit.inventory.ItemStack;
 public abstract class AddItemFromInventoryListener implements InterfaceClickListener {
 
     private boolean moveAll = false;
+    private int offset;
 
-    public AddItemFromInventoryListener(boolean moveAll) {
+    public AddItemFromInventoryListener(boolean moveAll, int invSize) {
         this.moveAll = moveAll;
+        this.offset = invSize;
     }
 
     @Override
     public void onClick(Player player, InventoryClickEvent event) {
-        int firstSlot = event.getInventory().getSize() + 27;
+        int firstSlot = event.getInventory().getSize() + offset;
 
         if (event.getCurrentItem() == null || event.getCurrentItem().getType() == Material.AIR) {
             return;

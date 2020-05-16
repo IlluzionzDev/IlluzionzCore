@@ -66,18 +66,8 @@ public class InterfaceController<P extends IlluzionzPlugin> implements Listener,
 
     }
 
-    int fired = 0;
-
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClick(InventoryClickEvent event) {
-        fired++;
-
-        // Really cheap way to fix this problem for now
-        if (fired >= 2) {
-            fired = 0;
-            return;
-        }
-
         for (IUserInterface ui : activeInterfaces) {
             for (HumanEntity entity : ui.getInventory().getViewers()) {
                 if (entity.getUniqueId() == event.getWhoClicked().getUniqueId()) {
@@ -122,7 +112,26 @@ public class InterfaceController<P extends IlluzionzPlugin> implements Listener,
     }
 
     private void safelyClick(InterfaceClickListener listener, Player player, InventoryClickEvent event) {
-        MinecraftScheduler.get().synchronize(() -> listener.onClick(player, event));
+        MinecraftScheduler.get().safelyTick(new InstancedEntity() {
+            @Override
+            public Player getPlayer() {
+                return player;
+            }
+
+            @Override
+            public void tick() {
+                listener.onClick(player, event);
+            }
+
+            @Override
+            public boolean isValid() {
+                return true;
+            }
+
+            @Override
+            public void destroy() {
+            }
+        });
     }
 
     @EventHandler
