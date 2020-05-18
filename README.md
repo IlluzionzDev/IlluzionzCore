@@ -1,6 +1,6 @@
 # IlluzionzCore
 
-IlluzionzCore is a library used for utils and easy programming of Spigot Plugins. It comes with classes and implementations to code plugins flawlessly. Currently, there aren't many docs as this library is private to Illuzionz Studios ©
+IlluzionzCore is a library used for utils and easy programming of Spigot Plugins. It comes with classes and implementations to code plugins flawlessly. Currently, there aren't many docs as this library is private to Illuzionz Studios © 2020
 
 ## Usage
 
